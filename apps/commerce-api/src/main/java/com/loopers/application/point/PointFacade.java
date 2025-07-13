@@ -16,4 +16,10 @@ public class PointFacade {
 
         return PointInfo.from(point);
     }
+
+    public PointInfo getBalance(Long userId) {
+        int balance = pointService.getBalance(userId);
+
+        return new PointInfo(balance);
+    }
 }
