@@ -30,6 +30,7 @@ public class Point extends BaseEntity {
         point.amount = amount;
         point.balance = balance + amount;
         point.user = user;
+        point.status = PointStatus.CHARGE;
 
         return point;
     }

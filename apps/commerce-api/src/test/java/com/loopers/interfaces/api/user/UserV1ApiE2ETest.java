@@ -3,7 +3,7 @@ package com.loopers.interfaces.api.user;
 import com.loopers.domain.user.Sex;
 import com.loopers.domain.user.User;
 import com.loopers.domain.user.UserRegisterRequest;
-import com.loopers.infrastructure.member.UserJpaRepository;
+import com.loopers.infrastructure.user.UserJpaRepository;
 import com.loopers.interfaces.api.ApiResponse;
 import com.loopers.utils.DatabaseCleanUp;
 import org.junit.jupiter.api.AfterEach;
