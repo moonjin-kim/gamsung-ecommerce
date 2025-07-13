@@ -25,7 +25,8 @@ public class PointV1Controller implements PointV1ApiSpec{
     }
 
     @GetMapping("")
-    public ApiResponse<PointV1Dto.PointBalanceResponse> getBalance(Long userId) {
+    @Override
+    public ApiResponse<PointV1Dto.PointBalanceResponse> getBalance(@RequestHeader("X-USER-ID") Long userId) {
         PointInfo info = pointFacade.getBalance(userId);
         PointV1Dto.PointBalanceResponse response = PointV1Dto.PointBalanceResponse.from(info);
         return ApiResponse.success(response);
