@@ -10,22 +10,24 @@ import org.springframework.transaction.annotation.Transactional;
 @Component
 @Transactional(readOnly = true)
 public class UserService {
-    private final UserRepository memberRepository;
+    private final UserRepository userRepository;
 
     @Transactional
     public User registerMember(UserRegisterRequest request) {
         checkDuplicateAccount(request);
 
-        return memberRepository.save(User.create(request));
+        return userRepository.save(User.create(request));
     }
 
     @Transactional(readOnly = true)
     public User getUser(Long id) {
-        return new User();
+        return userRepository.find(id).orElseThrow(() ->
+                new CoreException(ErrorType.NOT_FOUND, "[id = " + id + "] 존재하지 않는 회원입니다.")
+        );
     }
 
     private void checkDuplicateAccount(UserRegisterRequest request) {
-        if (memberRepository.findByAccount(request.account()).isPresent()) {
+        if (userRepository.findByAccount(request.account()).isPresent()) {
             throw new CoreException(ErrorType.BAD_REQUEST,"이미 존재하는 아이디입니다: " + request.account());
         }
     }
