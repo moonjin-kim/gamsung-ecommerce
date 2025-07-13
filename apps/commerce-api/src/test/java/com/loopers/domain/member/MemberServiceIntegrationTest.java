@@ -1,6 +1,9 @@
 package com.loopers.domain.member;
 
+import com.loopers.domain.example.ExampleModel;
 import com.loopers.infrastructure.member.MemberJpaRepository;
+import com.loopers.support.error.CoreException;
+import com.loopers.support.error.ErrorType;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -47,6 +50,26 @@ class MemberServiceIntegrationTest {
                     () -> assertThat(savedMember.getBirthday()).isEqualTo(request.birthday()),
                     () -> assertThat(savedMember.getAddress()).isEqualTo(request.address())
             );
+        }
+
+        @DisplayName("이미 해당 아이디로 회원가입된 멤버가 존재시, BAD_REQUEST 예외가 발생한다.")
+        @Test
+        void throwsException_whenAlreadyRegisteredMember() {
+            //given
+            MemberRegisterRequest request = new MemberRegisterRequest(
+                    "gil123","홍길동", "gil1234", "gildong@gmail.com","2020-01-01", "서울특별시"
+            );
+            Member member = memberJpaRepository.save(
+                    Member.create(request)
+            );
+
+            //when
+            CoreException exception = assertThrows(CoreException.class, () -> {
+                memberService.registerMember(request);
+            });
+
+            //then
+            assertThat(exception.getErrorType()).isEqualTo(ErrorType.BAD_REQUEST);
         }
     }
 }
