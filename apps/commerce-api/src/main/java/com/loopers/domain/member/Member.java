@@ -28,7 +28,6 @@ public class Member extends BaseEntity {
     String account;
     @Column(length = 100, nullable = false)
     String name;
-
     @Embedded
     Email email;
     @Column(length = 100, nullable = false)
