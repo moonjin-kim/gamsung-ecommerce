@@ -27,4 +27,8 @@ public class PointService {
 
         return Point.charge(user, amount, currentBalance);
     }
+
+    public int getBalance(Long userId) {
+        return 0;
+    }
 }
