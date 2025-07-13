@@ -16,7 +16,7 @@ public class UserService {
     public User registerMember(UserRegisterRequest request) {
         checkDuplicateAccount(request);
 
-        return userRepository.save(User.create(request));
+        return userRepository.save(User.register(request));
     }
 
     @Transactional(readOnly = true)
