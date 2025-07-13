@@ -33,24 +33,31 @@ class UserTest {
 
         }
 
-        @DisplayName("아이디가 영문 숫자 10자리 초과이면, BAD_REQUEST 예외가 발생한다.")
+        @DisplayName("ID 가 영문 및 숫자 10자 이내 형식에 맞지 않으면, User 객체 생성에 실패한다.")
         @Test
         void throwsBadRequestException_whenAccountLenOverTen(){
             //given
-            UserRegisterRequest request = new UserRegisterRequest(
+            UserRegisterRequest request1 = new UserRegisterRequest(
                     "gil12312312","gildong@gmail.com", "2020-01-01", Sex.MALE
+            );
+            UserRegisterRequest request2 = new UserRegisterRequest(
+                    "홍길동12312312","gildong@gmail.com", "2020-01-01", Sex.MALE
             );
 
             //when
-            CoreException result = assertThrows(CoreException.class, () -> {
-                User.create(request);
+            CoreException result1 = assertThrows(CoreException.class, () -> {
+                User.create(request1);
+            });
+            CoreException result2 = assertThrows(CoreException.class, () -> {
+                User.create(request2);
             });
 
             //then
-            assertThat(result.getErrorType()).isEqualTo(ErrorType.BAD_REQUEST);
+            assertThat(result1.getErrorType()).isEqualTo(ErrorType.BAD_REQUEST);
+            assertThat(result2.getErrorType()).isEqualTo(ErrorType.BAD_REQUEST);
         }
 
-        @DisplayName("이메일 형식이 잘못되면, BAD_REQUEST 예외가 발생한다.")
+        @DisplayName("이메일이 xx@yy.zz 형식에 맞지 않으면, User 객체 생성에 실패한다.")
         @Test
         void throwsBadRequestException_whenIncorrectEmailFormat(){
             //given
@@ -67,7 +74,7 @@ class UserTest {
             assertThat(result.getErrorType()).isEqualTo(ErrorType.BAD_REQUEST);
         }
 
-        @DisplayName("생일 형식이 잘못되면, BAD_REQUEST 예외가 발생한다.")
+        @DisplayName("생년월일이 yyyy-MM-dd 형식에 맞지 않으면, User 객체 생성에 실패한다.")
         @Test
         void throwsBadRequestException_whenIncorrectBirthDayFormat(){
             //given
