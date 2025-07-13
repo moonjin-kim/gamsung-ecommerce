@@ -17,4 +17,10 @@ public class Point extends BaseEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private User user;
+
+    public static Point charge(User user, int amount) {
+        Point point = new Point();
+
+        return point;
+    }
 }

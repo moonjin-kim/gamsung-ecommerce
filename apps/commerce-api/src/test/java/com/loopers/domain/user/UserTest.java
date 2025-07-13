@@ -1,6 +1,6 @@
 package com.loopers.domain.user;
 
-import com.loopers.domain.example.ExampleModel;
+import com.loopers.fixture.UserFixture;
 import com.loopers.support.error.CoreException;
 import com.loopers.support.error.ErrorType;
 import org.junit.jupiter.api.DisplayName;
@@ -18,12 +18,10 @@ class UserTest {
         @Test
         void registerMember(){
             //given
-            UserRegisterRequest request = new UserRegisterRequest(
-                    "gil123", "gil1234@gmail.com", "2020-01-01", Sex.MALE
-            );
+            UserRegisterRequest request = UserFixture.createUserRegisterRequest();
 
             //when
-            User user = User.create(request);
+            User user = User.register(request);
 
             //then
             assertThat(user.getId()).isNotNull();
@@ -47,10 +45,10 @@ class UserTest {
 
             //when
             CoreException result1 = assertThrows(CoreException.class, () -> {
-                User.create(request1);
+                User.register(request1);
             });
             CoreException result2 = assertThrows(CoreException.class, () -> {
-                User.create(request2);
+                User.register(request2);
             });
 
             //then
@@ -68,7 +66,7 @@ class UserTest {
 
             //when
             CoreException result = assertThrows(CoreException.class, () -> {
-                User.create(request);
+                User.register(request);
             });
 
             //then
@@ -85,7 +83,7 @@ class UserTest {
 
             //when
             CoreException result = assertThrows(CoreException.class, () -> {
-                User.create(request);
+                User.register(request);
             });
 
             //then
@@ -102,7 +100,7 @@ class UserTest {
 
             //when
             CoreException result = assertThrows(CoreException.class, () -> {
-                User.create(request);
+                User.register(request);
             });
 
             //then
