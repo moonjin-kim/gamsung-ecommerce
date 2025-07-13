@@ -34,5 +34,22 @@ class MemberTest {
             assertThat(member.getBirthday()).isEqualTo(request.birthday());
             assertThat(member.getAddress()).isEqualTo(request.address());
         }
+
+        @DisplayName("아이디가 영문 숫자 10자리 초과이면, BAD_REQUEST 예외가 발생한다.")
+        @Test
+        void throwsBadRequestException_whenAccountLenOverTen(){
+            //given
+            MemberRegisterRequest request = new MemberRegisterRequest(
+                    "gil123123112","홍길동", "gil1234", "gildong@gmail.com","2020-01-01", "서울특별시"
+            );
+
+            //when
+            CoreException result = assertThrows(CoreException.class, () -> {
+                Member.create(request);
+            });
+
+            //then
+            assertThat(result.getErrorType()).isEqualTo(ErrorType.BAD_REQUEST);
+        }
     }
 }
