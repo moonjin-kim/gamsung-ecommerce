@@ -32,6 +32,7 @@ class PointTest {
             //then
             assertThat(point.getAmount()).isEqualTo(amount);
             assertThat(point.getBalance()).isEqualTo(amount + balance);
+            assertThat(point.getStatus()).isEqualTo(PointStatus.CHARGE);
         }
 
         @DisplayName("0 이하의 정수로 포인트를 충전 시 실패한다.")

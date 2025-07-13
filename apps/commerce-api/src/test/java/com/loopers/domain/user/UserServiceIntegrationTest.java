@@ -1,7 +1,7 @@
 package com.loopers.domain.user;
 
 import com.loopers.fixture.UserFixture;
-import com.loopers.infrastructure.member.UserJpaRepository;
+import com.loopers.infrastructure.user.UserJpaRepository;
 import com.loopers.support.error.CoreException;
 import com.loopers.support.error.ErrorType;
 import com.loopers.utils.DatabaseCleanUp;
@@ -14,7 +14,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.ArgumentMatchers.any;
 
 @SpringBootTest
 class UserServiceIntegrationTest {
