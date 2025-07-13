@@ -9,10 +9,13 @@ import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.NaturalId;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeParseException;
 import java.util.regex.Pattern;
 
 @Entity
@@ -30,14 +33,13 @@ public class Member extends BaseEntity {
     Email email;
     @Column(length = 100, nullable = false)
     String password;
-
-    String birthday;
+    @Column
+    LocalDate birthday;
     @Column(length = 100, nullable = false)
     String address;
 
 
     static String ACCOUNT_PATTERN = "^[a-z0-9]{1,10}$";
-    static String BIRTHDAY_PATTERN = "^\\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[12]\\d|3[01])$";
 
     static Member create(MemberRegisterRequest registerRequest) {
         Member member = new Member();
@@ -46,17 +48,22 @@ public class Member extends BaseEntity {
             throw new CoreException(ErrorType.BAD_REQUEST, "아이디 형식이 잘못되었습니다.");
         }
         member.account = registerRequest.account();
+
         member.name = registerRequest.name();
         member.password = registerRequest.password();
-
         member.email = new Email(registerRequest.email());
-        if(!Pattern.matches(BIRTHDAY_PATTERN, registerRequest.birthday())) {
-            throw new CoreException(ErrorType.BAD_REQUEST, "생일 형식이 잘못되었습니다.");
-        }
-        member.birthday = registerRequest.birthday();
+        member.birthday = parseStringToLocalDate(registerRequest);
         member.address = registerRequest.address();
 
         return member;
+    }
+
+    private static LocalDate parseStringToLocalDate(MemberRegisterRequest registerRequest) {
+        try {
+            return LocalDate.parse(registerRequest.birthday());
+        } catch (DateTimeParseException e) {
+            throw new CoreException(ErrorType.BAD_REQUEST, "생일 형식이 잘못되었습니다.");
+        }
     }
 
 
