@@ -3,7 +3,9 @@ package com.loopers.interfaces.api.point;
 import com.loopers.domain.point.PointChargeRequest;
 import com.loopers.interfaces.api.ApiResponse;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 
+@Tag(name = "POINT V1 API", description = "POINT API 입니다.")
 public interface PointV1ApiSpec {
     @Operation(
             summary = "포인트 충전",
