@@ -33,7 +33,7 @@ public class User extends BaseEntity {
     private static final String BIRTH_DATE_REGEX =
             "^(19|20)\\d{2}-(0[1-9]|1[0-2])-(0[1-9]|[12]\\d|3[01])$";
 
-    static User create(UserRegisterRequest registerRequest) {
+    public static User create(UserRegisterRequest registerRequest) {
         User user = new User();
         if(registerRequest.email() == null || registerRequest.email().isEmpty()) {
             throw new CoreException(ErrorType.BAD_REQUEST, "이메일은 비어있을 수 없습니다.");
