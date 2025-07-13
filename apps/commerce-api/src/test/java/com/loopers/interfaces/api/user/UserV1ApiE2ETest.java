@@ -19,7 +19,6 @@ import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.*;
 
-import java.util.function.Function;
 import java.util.stream.Stream;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -126,7 +125,7 @@ class UserV1ApiE2ETest {
         void returnsUserInfo_whenValidIdIsProvided() {
             //given
             User user = userJpaRepository.save(
-                    User.create(
+                    User.register(
                             new UserRegisterRequest(
                                     "gil123","gil1234@gmail.com", "2020-01-01", Sex.MALE
                             )
