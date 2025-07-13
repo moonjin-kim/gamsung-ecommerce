@@ -83,5 +83,22 @@ class UserTest {
             //then
             assertThat(result.getErrorType()).isEqualTo(ErrorType.BAD_REQUEST);
         }
+
+        @DisplayName("성별을 받지 못하면, BAD_REQUEST 예외가 발생한다.")
+        @Test
+        void throwsBadRequestException_whenIncorrectSex(){
+            //given
+            UserRegisterRequest request = new UserRegisterRequest(
+                    "gil123","gildong@gmail.com", "2020-01", null
+            );
+
+            //when
+            CoreException result = assertThrows(CoreException.class, () -> {
+                User.create(request);
+            });
+
+            //then
+            assertThat(result.getErrorType()).isEqualTo(ErrorType.BAD_REQUEST);
+        }
     }
 }
