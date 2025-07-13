@@ -30,9 +30,14 @@ public class Member extends BaseEntity {
     String address;
 
 
+    static String ACCOUNT_PATTERN = "^[a-z0-9]{1,10}$";
+
     static Member create(MemberRegisterRequest registerRequest) {
         Member member = new Member();
 
+        if(!Pattern.matches(ACCOUNT_PATTERN, registerRequest.account())) {
+            throw new CoreException(ErrorType.BAD_REQUEST, "아이디 형식이 잘못되었습니다.");
+        }
         member.account = registerRequest.account();
         member.name = registerRequest.name();
         member.password = registerRequest.password();
