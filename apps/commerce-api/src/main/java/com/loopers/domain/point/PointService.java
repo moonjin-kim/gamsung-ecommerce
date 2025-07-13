@@ -29,6 +29,11 @@ public class PointService {
     }
 
     public int getBalance(Long userId) {
-        return 0;
+        User user = userRepository.find(userId).orElseThrow(() ->
+                new CoreException(ErrorType.NOT_FOUND, "[id = " + userId + "] 존재하지 않는 회원입니다.")
+        );
+
+        Optional<Point> lastPoint = pointRepository.findLastByUser(user);
+        return lastPoint.map(Point::getBalance).orElse(0);
     }
 }
