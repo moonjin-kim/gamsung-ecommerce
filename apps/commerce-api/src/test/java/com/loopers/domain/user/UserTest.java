@@ -18,7 +18,7 @@ class UserTest {
         void registerMember(){
             //given
             UserRegisterRequest request = new UserRegisterRequest(
-                    "gil123","홍길동", "gil1234", "gildong@gmail.com","2020-01-01", "서울특별시"
+                    "gil123", "gil1234@gmail.com", "2020-01-01", Sex.MALE
             );
 
             //when
@@ -27,11 +27,10 @@ class UserTest {
             //then
             assertThat(user.getId()).isNotNull();
             assertThat(user.getAccount()).isEqualTo(request.account());
-            assertThat(user.getName()).isEqualTo(request.name());
-            assertThat(user.getEmail().address()).isEqualTo(request.email());
-            assertThat(user.getPassword()).isEqualTo(request.password());
+            assertThat(user.getEmail()).isEqualTo(request.email());
             assertThat(user.getBirthday()).isEqualTo(request.birthday());
-            assertThat(user.getAddress()).isEqualTo(request.address());
+            assertThat(user.getSex()).isEqualTo(request.sex());
+
         }
 
         @DisplayName("아이디가 영문 숫자 10자리 초과이면, BAD_REQUEST 예외가 발생한다.")
@@ -39,7 +38,7 @@ class UserTest {
         void throwsBadRequestException_whenAccountLenOverTen(){
             //given
             UserRegisterRequest request = new UserRegisterRequest(
-                    "gil123123112","홍길동", "gil1234", "gildong@gmail.com","2020-01-01", "서울특별시"
+                    "gil12312312","gildong@gmail.com", "2020-01-01", Sex.MALE
             );
 
             //when
@@ -56,7 +55,7 @@ class UserTest {
         void throwsBadRequestException_whenIncorrectEmailFormat(){
             //given
             UserRegisterRequest request = new UserRegisterRequest(
-                    "gil1231231","홍길동", "gil1234", "gildong","2020-01-01", "서울특별시"
+                    "gil123","gildong",  "2020-01-01", Sex.MALE
             );
 
             //when
@@ -73,7 +72,7 @@ class UserTest {
         void throwsBadRequestException_whenIncorrectBirthDayFormat(){
             //given
             UserRegisterRequest request = new UserRegisterRequest(
-                    "gil1231231","홍길동", "gil1234", "gildong@gmail.com","2020-01", "서울특별시"
+                    "gil123","gildong@gmail.com", "2020-01", Sex.MALE
             );
 
             //when
