@@ -10,8 +10,9 @@ import org.springframework.transaction.annotation.Transactional;
 public class MemberService {
     private final MemberRepository memberRepository;
 
+    @Transactional
     public Member registerMember(MemberRegisterRequest request) {
 
-        return new Member();
+        return memberRepository.save(Member.create(request));
     }
 }
