@@ -1,33 +1,24 @@
 package com.loopers.domain.member;
 
-import com.loopers.domain.example.ExampleService;
-import com.loopers.infrastructure.example.ExampleJpaRepository;
 import com.loopers.infrastructure.member.MemberJpaRepository;
-import com.loopers.infrastructure.member.MemberRepositoryImpl;
-import com.loopers.utils.DatabaseCleanUp;
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.Spy;
-import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import static org.assertj.core.api.Assertions.*;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 import static org.testcontainers.shaded.org.bouncycastle.asn1.x500.style.RFC4519Style.member;
 
-@ExtendWith(MockitoExtension.class)
-class MemberServiceTest {
-    @Mock
-    private MemberRepository memberRepository;
-    @InjectMocks
+@SpringBootTest
+class MemberServiceIntegrationTest {
+    @Autowired
+    private MemberJpaRepository memberJpaRepository;
+    @Autowired
     private MemberService memberService;
 
     @DisplayName("회원가입 시도 할 때,")
@@ -40,14 +31,22 @@ class MemberServiceTest {
             MemberRegisterRequest request = new MemberRegisterRequest(
                     "gil123","홍길동", "gil1234", "gildong@gmail.com","2020-01-01", "서울특별시"
             );
-            Member memberToSave = Member.create(request);
-            when(memberRepository.save(any(Member.class))).thenReturn(memberToSave);
 
             //when
-            memberService.registerMember(request);
+            Member member = memberService.registerMember(request);
 
             //then
-            verify(memberRepository, times(1)).save(any(Member.class));
+            assertThat(member.getId()).isNotNull();
+            Member savedMember = memberJpaRepository.findAll().getFirst();
+            assertAll(
+                    () -> assertThat(savedMember.getId()).isEqualTo(member.getId()),
+                    () -> assertThat(savedMember.getAccount()).isEqualTo(request.account()),
+                    () -> assertThat(savedMember.getName()).isEqualTo(request.name()),
+                    () -> assertThat(savedMember.getEmail().address()).isEqualTo(request.email()),
+                    () -> assertThat(savedMember.getPassword()).isEqualTo(request.password()),
+                    () -> assertThat(savedMember.getBirthday()).isEqualTo(request.birthday()),
+                    () -> assertThat(savedMember.getAddress()).isEqualTo(request.address())
+            );
         }
     }
 }
