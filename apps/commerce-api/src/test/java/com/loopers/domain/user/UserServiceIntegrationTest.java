@@ -1,5 +1,6 @@
 package com.loopers.domain.user;
 
+import com.loopers.domain.example.ExampleModel;
 import com.loopers.infrastructure.member.UserJpaRepository;
 import com.loopers.support.error.CoreException;
 import com.loopers.support.error.ErrorType;
@@ -73,6 +74,50 @@ class UserServiceIntegrationTest {
 
             //then
             assertThat(exception.getErrorType()).isEqualTo(ErrorType.BAD_REQUEST);
+        }
+    }
+
+    @DisplayName("회원정보를 조회할 때")
+    @Nested
+    class getUser {
+        @DisplayName("해당 ID 의 회원이 존재할 경우, 회원 정보가 반환된다.")
+        @Test
+        void returnsUser_whenValidIdIsProvided(){
+            //given
+            User user = userJpaRepository.save(
+                    User.create(
+                            new UserRegisterRequest(
+                            "gil123","gil1234@gmail.com", "2020-01-01", Sex.MALE
+                            )
+                    )
+            );
+
+            //when
+            User result = userService.getUser(user.getId());
+
+            //then
+            assertAll(
+                    () -> assertThat(result).isNotNull(),
+                    () -> assertThat(result.getId()).isEqualTo(user.getId()),
+                    () -> assertThat(result.getAccount()).isEqualTo(user.getAccount()),
+                    () -> assertThat(result.getEmail()).isEqualTo(user.getEmail()),
+                    () -> assertThat(result.getBirthday()).isEqualTo(user.getBirthday()),
+                    () -> assertThat(result.getSex()).isEqualTo(user.getSex())
+            );
+        }
+
+        @DisplayName("존재하지 않는 유저 ID를 주면, NOT_FOUND 예외가 발생한다.")
+        @Test
+        void throwsException_whenInvalidIdIsProvided(){
+            //given
+
+            //when
+            CoreException exception = assertThrows(CoreException.class, () -> {
+                userService.getUser(1L);
+            });
+
+            // assert
+            assertThat(exception.getErrorType()).isEqualTo(ErrorType.NOT_FOUND);
         }
     }
 }
