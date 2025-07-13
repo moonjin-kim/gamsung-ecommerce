@@ -1,4 +1,4 @@
-package com.loopers.infrastructure.member;
+package com.loopers.infrastructure.user;
 
 import com.loopers.domain.user.User;
 import com.loopers.domain.user.UserRepository;
