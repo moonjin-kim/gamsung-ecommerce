@@ -1,6 +1,5 @@
 package com.loopers.interfaces.api.user;
 
-import com.loopers.domain.example.ExampleModel;
 import com.loopers.domain.user.Sex;
 import com.loopers.domain.user.User;
 import com.loopers.domain.user.UserRegisterRequest;
