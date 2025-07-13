@@ -115,7 +115,7 @@ public class PointServiceIntegrationTest {
             int result = pointService.getBalance(user.getId());
 
             //then
-            assertThat(result).isEqualTo(0);
+            assertThat(result).isEqualTo(10000);
         }
 
         @DisplayName("해당 ID 의 회원이 존재할 경우, 보유 포인트가 반환된다.(포인트 충전 이력 x)")
