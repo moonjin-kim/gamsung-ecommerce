@@ -48,26 +48,36 @@ public class User extends BaseEntity {
         return user;
     }
 
-    private void setEmail(String email) {
-        if(!Pattern.matches(EMAIL_PATTERN, email)) {
-            throw new CoreException(ErrorType.BAD_REQUEST, "이메일 형식이 잘못되었습니다.");
-        }
-
-        this.email = email;
-    }
-
     private void setAccount(String account) {
+        if(account == null || account.isEmpty()) {
+            throw new CoreException(ErrorType.BAD_REQUEST, "아이디는 비어있을 수 없습니다.");
+        }
         if(!Pattern.matches(ACCOUNT_PATTERN, account)) {
             throw new CoreException(ErrorType.BAD_REQUEST, "아이디 형식이 잘못되었습니다.");
         }
         this.account = account;
     }
 
+    private void setEmail(String email) {
+        if(email == null || email.isEmpty()) {
+            throw new CoreException(ErrorType.BAD_REQUEST, "이메일은 비어있을 수 없습니다.");
+        }
+
+        if(!Pattern.matches(EMAIL_PATTERN, email)) {
+            throw new CoreException(ErrorType.BAD_REQUEST, "아이디 형식이 잘못되었습니다.");
+        }
+        this.email = email;
+    }
+
     private void setBirthdayFromString(String birthday) {
+        if(birthday == null || birthday.isEmpty()) {
+            throw new CoreException(ErrorType.BAD_REQUEST, "생년월일은 비어있을 수 없습니다.");
+        }
+
         try {
             this.birthday = LocalDate.parse(birthday);
         } catch (DateTimeParseException e) {
-            throw new CoreException(ErrorType.BAD_REQUEST, "생일 형식이 잘못되었습니다.");
+            throw new CoreException(ErrorType.BAD_REQUEST, "생년월일 형식이 잘못되었습니다.");
         }
     }
 
