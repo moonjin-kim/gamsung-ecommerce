@@ -3,6 +3,8 @@ package com.loopers.domain.user;
 import com.loopers.infrastructure.member.UserJpaRepository;
 import com.loopers.support.error.CoreException;
 import com.loopers.support.error.ErrorType;
+import com.loopers.utils.DatabaseCleanUp;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -19,6 +21,13 @@ class UserServiceIntegrationTest {
     private UserJpaRepository userJpaRepository;
     @Autowired
     private UserService userService;
+    @Autowired
+    private DatabaseCleanUp databaseCleanUp;
+
+    @AfterEach
+    void tearDown() {
+        databaseCleanUp.truncateAllTables();
+    }
 
     @DisplayName("회원가입 시도 할 때,")
     @Nested
@@ -28,7 +37,7 @@ class UserServiceIntegrationTest {
         void registerMember_whenAllMemberInfoAreProvide(){
             //given
             UserRegisterRequest request = new UserRegisterRequest(
-                    "gil123","홍길동", "gil1234", "gildong@gmail.com","2020-01-01", "서울특별시"
+                    "gil123","gil1234@gmail.com", "2020-01-01", Sex.MALE
             );
 
             //when
@@ -40,11 +49,9 @@ class UserServiceIntegrationTest {
             assertAll(
                     () -> assertThat(savedUser.getId()).isEqualTo(user.getId()),
                     () -> assertThat(savedUser.getAccount()).isEqualTo(request.account()),
-                    () -> assertThat(savedUser.getName()).isEqualTo(request.name()),
-                    () -> assertThat(savedUser.getEmail().address()).isEqualTo(request.email()),
-                    () -> assertThat(savedUser.getPassword()).isEqualTo(request.password()),
+                    () -> assertThat(savedUser.getEmail()).isEqualTo(request.email()),
                     () -> assertThat(savedUser.getBirthday()).isEqualTo(request.birthday()),
-                    () -> assertThat(savedUser.getAddress()).isEqualTo(request.address())
+                    () -> assertThat(savedUser.getSex()).isEqualTo(request.sex())
             );
         }
 
@@ -53,7 +60,7 @@ class UserServiceIntegrationTest {
         void throwsException_whenAlreadyRegisteredMember() {
             //given
             UserRegisterRequest request = new UserRegisterRequest(
-                    "gil123","홍길동", "gil1234", "gildong@gmail.com","2020-01-01", "서울특별시"
+                    "gil123","gil1234@gmail.com", "2020-01-01", Sex.MALE
             );
             User user = userJpaRepository.save(
                     User.create(request)
