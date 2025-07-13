@@ -1,6 +1,5 @@
 package com.loopers.domain.user;
 
-import com.loopers.fixture.UserFixture;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -27,8 +26,10 @@ class UserServiceTest {
         @Test
         void registerMember_whenAllMemberInfoAreProvide(){
             //given
-            UserRegisterRequest request = UserFixture.createUserRegisterRequest();
-            User userToSave = User.register(request);
+            UserRegisterRequest request = new UserRegisterRequest(
+                    "gil123","홍길동", "gil1234", "gildong@gmail.com","2020-01-01", "서울특별시"
+            );
+            User userToSave = User.create(request);
             when(memberRepository.save(any(User.class))).thenReturn(userToSave);
 
             //when

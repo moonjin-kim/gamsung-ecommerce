@@ -1,11 +1,8 @@
 package com.loopers.domain.user;
 
-import com.loopers.fixture.UserFixture;
-import com.loopers.infrastructure.user.UserJpaRepository;
+import com.loopers.infrastructure.member.UserJpaRepository;
 import com.loopers.support.error.CoreException;
 import com.loopers.support.error.ErrorType;
-import com.loopers.utils.DatabaseCleanUp;
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -14,6 +11,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.any;
 
 @SpringBootTest
 class UserServiceIntegrationTest {
@@ -21,13 +19,6 @@ class UserServiceIntegrationTest {
     private UserJpaRepository userJpaRepository;
     @Autowired
     private UserService userService;
-    @Autowired
-    private DatabaseCleanUp databaseCleanUp;
-
-    @AfterEach
-    void tearDown() {
-        databaseCleanUp.truncateAllTables();
-    }
 
     @DisplayName("회원가입 시도 할 때,")
     @Nested
@@ -36,7 +27,9 @@ class UserServiceIntegrationTest {
         @Test
         void registerMember_whenAllMemberInfoAreProvide(){
             //given
-            UserRegisterRequest request = UserFixture.createUserRegisterRequest();
+            UserRegisterRequest request = new UserRegisterRequest(
+                    "gil123","홍길동", "gil1234", "gildong@gmail.com","2020-01-01", "서울특별시"
+            );
 
             //when
             User user = userService.registerMember(request);
@@ -47,9 +40,11 @@ class UserServiceIntegrationTest {
             assertAll(
                     () -> assertThat(savedUser.getId()).isEqualTo(user.getId()),
                     () -> assertThat(savedUser.getAccount()).isEqualTo(request.account()),
-                    () -> assertThat(savedUser.getEmail()).isEqualTo(request.email()),
+                    () -> assertThat(savedUser.getName()).isEqualTo(request.name()),
+                    () -> assertThat(savedUser.getEmail().address()).isEqualTo(request.email()),
+                    () -> assertThat(savedUser.getPassword()).isEqualTo(request.password()),
                     () -> assertThat(savedUser.getBirthday()).isEqualTo(request.birthday()),
-                    () -> assertThat(savedUser.getSex()).isEqualTo(request.sex())
+                    () -> assertThat(savedUser.getAddress()).isEqualTo(request.address())
             );
         }
 
@@ -57,9 +52,11 @@ class UserServiceIntegrationTest {
         @Test
         void throwsException_whenAlreadyRegisteredMember() {
             //given
-            UserRegisterRequest request = UserFixture.createUserRegisterRequest();
+            UserRegisterRequest request = new UserRegisterRequest(
+                    "gil123","홍길동", "gil1234", "gildong@gmail.com","2020-01-01", "서울특별시"
+            );
             User user = userJpaRepository.save(
-                    User.register(request)
+                    User.create(request)
             );
 
             //when
@@ -69,46 +66,6 @@ class UserServiceIntegrationTest {
 
             //then
             assertThat(exception.getErrorType()).isEqualTo(ErrorType.BAD_REQUEST);
-        }
-    }
-
-    @DisplayName("회원정보를 조회할 때")
-    @Nested
-    class getUser {
-        @DisplayName("해당 ID 의 회원이 존재할 경우, 회원 정보가 반환된다.")
-        @Test
-        void returnsUser_whenValidIdIsProvided(){
-            //given
-            User user = userJpaRepository.save(
-                    UserFixture.createMember()
-            );
-
-            //when
-            User result = userService.getUser(user.getId());
-
-            //then
-            assertAll(
-                    () -> assertThat(result).isNotNull(),
-                    () -> assertThat(result.getId()).isEqualTo(user.getId()),
-                    () -> assertThat(result.getAccount()).isEqualTo(user.getAccount()),
-                    () -> assertThat(result.getEmail()).isEqualTo(user.getEmail()),
-                    () -> assertThat(result.getBirthday()).isEqualTo(user.getBirthday()),
-                    () -> assertThat(result.getSex()).isEqualTo(user.getSex())
-            );
-        }
-
-        @DisplayName("존재하지 않는 유저 ID를 주면, NOT_FOUND 예외가 발생한다.")
-        @Test
-        void throwsException_whenInvalidIdIsProvided(){
-            //given
-
-            //when
-            CoreException exception = assertThrows(CoreException.class, () -> {
-                userService.getUser(1L);
-            });
-
-            // assert
-            assertThat(exception.getErrorType()).isEqualTo(ErrorType.NOT_FOUND);
         }
     }
 }
