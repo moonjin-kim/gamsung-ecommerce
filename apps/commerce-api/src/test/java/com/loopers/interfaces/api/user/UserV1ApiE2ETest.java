@@ -44,7 +44,8 @@ class UserV1ApiE2ETest {
     @DisplayName("Post /api/v1/users")
     @Nested
     class RegisterUser {
-        @DisplayName("")
+
+        @DisplayName("올바른 회원정보를 포함하여 회원가입 요청시, 회원가입한 유저 정보를 받는다.")
         @Test
         void returnsUserInfo_whenValidBodyIsProvided() {
             //given
@@ -68,6 +69,33 @@ class UserV1ApiE2ETest {
                     () -> assertTrue(response.getStatusCode().is2xxSuccessful()),
                     () -> assertThat(response.getBody().data().id()).isNotNull(),
                     () -> assertThat(response.getBody().data().account()).isEqualTo(request.account())
+            );
+        }
+
+
+        @DisplayName("성별을 포함하지 않으면, 400 BAD_REQUEST 응답을 받는다.")
+        @Test
+        void throwsBadRequest_whenSexIsNotProvider() {
+            //given
+            UserRegisterRequest request = new UserRegisterRequest(
+                    "gil123","gildong@gmail.com", "2020-01-01", null
+            );
+
+            //when
+            ParameterizedTypeReference<ApiResponse<UserV1Dto.UserResponse>> responseType = new ParameterizedTypeReference<>() {
+            };
+            ResponseEntity<ApiResponse<UserV1Dto.UserResponse>> response =
+                    testRestTemplate.exchange(
+                            ENDPOINT_REGISTER,
+                            HttpMethod.POST,
+                            new HttpEntity<UserRegisterRequest>(request),
+                            responseType
+                    );
+
+            //then
+            assertAll(
+                    () -> assertTrue(response.getStatusCode().is4xxClientError()),
+                    () -> assertThat(response.getStatusCode()).isEqualTo(HttpStatus.BAD_REQUEST)
             );
         }
     }
