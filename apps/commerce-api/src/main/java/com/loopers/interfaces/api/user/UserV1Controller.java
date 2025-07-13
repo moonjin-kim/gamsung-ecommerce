@@ -16,7 +16,7 @@ public class UserV1Controller implements UserV1ApiSpec {
 
     @PostMapping("")
     @Override
-    public ApiResponse<UserV1Dto.UserResponse> register(UserRegisterRequest body) {
+    public ApiResponse<UserV1Dto.UserResponse> register(@RequestBody UserRegisterRequest body) {
         UserInfo info = userFacade.registerUser(body);
         UserV1Dto.UserResponse response = UserV1Dto.UserResponse.from(info);
         return ApiResponse.success(response);
