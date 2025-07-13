@@ -51,5 +51,22 @@ class MemberTest {
             //then
             assertThat(result.getErrorType()).isEqualTo(ErrorType.BAD_REQUEST);
         }
+
+        @DisplayName("이메일 형식이 잘못되면, BAD_REQUEST 예외가 발생한다.")
+        @Test
+        void throwsBadRequestException_whenIncorrectEmailFormat(){
+            //given
+            MemberRegisterRequest request = new MemberRegisterRequest(
+                    "gil1231231","홍길동", "gil1234", "gildong","2020-01-01", "서울특별시"
+            );
+
+            //when
+            CoreException result = assertThrows(CoreException.class, () -> {
+                Member.create(request);
+            });
+
+            //then
+            assertThat(result.getErrorType()).isEqualTo(ErrorType.BAD_REQUEST);
+        }
     }
 }
