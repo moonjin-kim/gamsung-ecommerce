@@ -22,4 +22,9 @@ public class MemberRepositoryImpl implements MemberRepository {
     public Optional<Member> find(Long id) {
         return memberJpaRepository.findById(id);
     }
+
+    @Override
+    public Optional<Member> findByAccount(String account) {
+        return memberJpaRepository.findByAccount(account);
+    }
 }
