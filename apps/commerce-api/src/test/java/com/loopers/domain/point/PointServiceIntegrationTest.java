@@ -42,7 +42,7 @@ public class PointServiceIntegrationTest {
         @Test
         void returnPoint(){
             //given
-            User user = UserFixture.createMember();
+            User user = userJpaRepository.save(UserFixture.createMember());
             int amount = 10000;
 
             //when
@@ -51,8 +51,8 @@ public class PointServiceIntegrationTest {
             //then
             assertAll(
                     () -> assertThat(result).isNotNull(),
-                    () -> assertThat(result.getId()).isEqualTo(user.getId()),
-                    () -> assertThat(result.getAmount()).isEqualTo(user.getAccount()),
+                    () -> assertThat(result.getUser().getId()).isEqualTo(user.getId()),
+                    () -> assertThat(result.getAmount()).isEqualTo(amount),
                     () -> assertThat(result.getBalance()).isEqualTo(0 + amount)
             );
         }
@@ -61,7 +61,7 @@ public class PointServiceIntegrationTest {
         @Test
         void addPoint_whenRemainBalance(){
             //given
-            User user = UserFixture.createMember();
+            User user = userJpaRepository.save(UserFixture.createMember());
             Point chargedPoint = pointJpaRepository.save(
                     Point.charge(user, 1000, 0)
             );
@@ -73,8 +73,8 @@ public class PointServiceIntegrationTest {
             //then
             assertAll(
                     () -> assertThat(result).isNotNull(),
-                    () -> assertThat(result.getId()).isEqualTo(user.getId()),
-                    () -> assertThat(result.getAmount()).isEqualTo(user.getAccount()),
+                    () -> assertThat(result.getUser().getId()).isEqualTo(user.getId()),
+                    () -> assertThat(result.getAmount()).isEqualTo(amount),
                     () -> assertThat(result.getBalance()).isEqualTo(chargedPoint.getBalance() + amount)
             );
         }
