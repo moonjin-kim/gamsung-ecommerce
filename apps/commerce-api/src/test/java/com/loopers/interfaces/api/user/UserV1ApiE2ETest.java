@@ -3,6 +3,7 @@ package com.loopers.interfaces.api.user;
 import com.loopers.domain.user.Sex;
 import com.loopers.domain.user.User;
 import com.loopers.domain.user.UserRegisterRequest;
+import com.loopers.fixture.UserFixture;
 import com.loopers.infrastructure.user.UserJpaRepository;
 import com.loopers.interfaces.api.ApiResponse;
 import com.loopers.utils.DatabaseCleanUp;
@@ -125,11 +126,7 @@ class UserV1ApiE2ETest {
         void returnsUserInfo_whenValidIdIsProvided() {
             //given
             User user = userJpaRepository.save(
-                    User.register(
-                            new UserRegisterRequest(
-                                    "gil123","gil1234@gmail.com", "2020-01-01", Sex.MALE
-                            )
-                    )
+                    UserFixture.createMember()
             );
             HttpHeaders headers = new HttpHeaders();
             headers.setContentType(MediaType.APPLICATION_JSON);
