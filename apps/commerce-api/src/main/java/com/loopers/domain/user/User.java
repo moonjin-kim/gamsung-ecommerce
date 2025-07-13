@@ -14,7 +14,7 @@ import java.time.format.DateTimeParseException;
 import java.util.regex.Pattern;
 
 @Entity
-@Table(name = "member")
+@Table(name = "user")
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class User extends BaseEntity {
