@@ -20,6 +20,7 @@ public class UserService {
     }
 
     private void checkDuplicateAccount(UserRegisterRequest request) {
+        Boolean isAlready = memberRepository.findByAccount(request.account()).isPresent();
         if (memberRepository.findByAccount(request.account()).isPresent()) {
             throw new CoreException(ErrorType.BAD_REQUEST,"이미 존재하는 아이디입니다: " + request.account());
         }
