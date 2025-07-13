@@ -32,6 +32,7 @@ public class Member extends BaseEntity {
 
     static String ACCOUNT_PATTERN = "^[a-z0-9]{1,10}$";
     static String EMAIL_PATTERN = "^[a-zA-Z0-9_+&*-]+(?:\\.[a-zA-Z0-9_+&*-]+)*@(?:[a-zA-Z0-9_+&*-]+\\.)+[a-zA-Z]{2,7}$";
+    static String BIRTHDAY_PATTERN = "^\\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[12]\\d|3[01])$";
 
     static Member create(MemberRegisterRequest registerRequest) {
         Member member = new Member();
