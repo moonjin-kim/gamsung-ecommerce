@@ -29,7 +29,7 @@ class MemberTest {
             assertThat(member.getId()).isNotNull();
             assertThat(member.getAccount()).isEqualTo(request.account());
             assertThat(member.getName()).isEqualTo(request.name());
-            assertThat(member.getEmail()).isEqualTo(request.email());
+            assertThat(member.getEmail().address()).isEqualTo(request.email());
             assertThat(member.getPassword()).isEqualTo(request.password());
             assertThat(member.getBirthday()).isEqualTo(request.birthday());
             assertThat(member.getAddress()).isEqualTo(request.address());
