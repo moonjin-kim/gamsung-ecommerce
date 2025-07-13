@@ -48,6 +48,9 @@ public class Member extends BaseEntity {
             throw new CoreException(ErrorType.BAD_REQUEST, "이메일 형식이 잘못되었습니다.");
         }
         member.email = registerRequest.email();
+        if(!Pattern.matches(BIRTHDAY_PATTERN, registerRequest.birthday())) {
+            throw new CoreException(ErrorType.BAD_REQUEST, "생일 형식이 잘못되었습니다.");
+        }
         member.birthday = registerRequest.birthday();
         member.address = registerRequest.address();
 
