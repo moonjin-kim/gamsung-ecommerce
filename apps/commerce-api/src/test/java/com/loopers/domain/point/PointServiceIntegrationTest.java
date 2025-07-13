@@ -15,6 +15,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import static org.assertj.core.api.Assertions.*;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -88,6 +89,58 @@ public class PointServiceIntegrationTest {
             //when
             CoreException exception = assertThrows(CoreException.class, () -> {
                 pointService.chargePoint(-1L, amount);
+            });
+
+            //then
+            assertThat(exception.getErrorType()).isEqualTo(ErrorType.NOT_FOUND);
+        }
+    }
+
+    @DisplayName("포인트 조회시")
+    @Nested
+    class getBalance {
+
+        @DisplayName("해당 ID 의 회원이 존재할 경우, 보유 포인트가 반환된다.")
+        @Test
+        void returnPoint_whenValidIdIsProvided(){
+            //given
+            User user = userJpaRepository.save(
+                    UserFixture.createMember()
+            );
+            Point point = pointJpaRepository.save(
+                    Point.charge(user, 10000, 0)
+            );
+
+            //when
+            int result = pointService.getBalance(user.getId());
+
+            //then
+            assertThat(result).isEqualTo(0);
+        }
+
+        @DisplayName("해당 ID 의 회원이 존재할 경우, 보유 포인트가 반환된다.(포인트 충전 이력 x)")
+        @Test
+        void returnPoint_whenValidIdIsProvidedAndNoChargeHistory(){
+            //given
+            User user = userJpaRepository.save(
+                    UserFixture.createMember()
+            );
+
+            //when
+            int result = pointService.getBalance(user.getId());
+
+            //then
+            assertThat(result).isEqualTo(0);
+        }
+
+        @DisplayName("해당 ID 의 회원이 존재하지 않을 경우, NOT_FOUND 예외가 발생한다.")
+        @Test
+        void throwException_whenInValidIdIsProvided(){
+            //given
+
+            //when
+            CoreException exception = assertThrows(CoreException.class, () -> {
+                pointService.getBalance(1L);
             });
 
             //then
