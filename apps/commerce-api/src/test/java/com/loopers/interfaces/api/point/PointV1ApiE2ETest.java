@@ -24,9 +24,6 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class PointV1ApiE2ETest {
-    private static final String ENDPOINT_CHARGE = "/api/v1/points/charge";
-    private static final String ENDPOINT_GET_BALANCE = "/api/v1/points";
-
     private final UserJpaRepository userJpaRepository;
     private final PointJpaRepository pointJpaRepository;
     private final TestRestTemplate testRestTemplate;
@@ -53,6 +50,8 @@ public class PointV1ApiE2ETest {
     @DisplayName("POST /api/v1/points/charge")
     @Nested
     class ChargePoint {
+        private static final String ENDPOINT_CHARGE = "/api/v1/points/charge";
+
         @DisplayName("존재하는 유저가 1000원을 충전할 경우, 충전된 보유 총량을 응답으로 반환한다.")
         @Test
         void returnsUserBalance_whenValidBodyIsProvided() {
@@ -147,6 +146,8 @@ public class PointV1ApiE2ETest {
     @DisplayName("GET /api/v1/points")
     @Nested
     class GetBalance {
+        private static final String ENDPOINT_GET_BALANCE = "/api/v1/points";
+
         @DisplayName("내 잔액 조회에 성공할 경우, 충전된 보유 총량을 응답으로 반환한다.")
         @Test
         void returnsUserBalance_whenValidUserIdIsProvided() {
