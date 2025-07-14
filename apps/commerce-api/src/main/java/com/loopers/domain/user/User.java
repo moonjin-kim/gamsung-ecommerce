@@ -3,8 +3,6 @@ package com.loopers.domain.user;
 import com.loopers.domain.BaseEntity;
 import com.loopers.domain.Email;
 import com.loopers.interfaces.api.user.UserV1RequestDto;
-import com.loopers.support.error.CoreException;
-import com.loopers.support.error.ErrorType;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -28,7 +26,7 @@ public class User extends BaseEntity {
     @Column(nullable = false)
     Gender gender;
 
-    public static User register(UserV1RequestDto.UserRegisterRequest registerRequest) {
+    public static User register(UserV1RequestDto.Register registerRequest) {
         User user = new User();
 
         UserValidator.validateAccount(registerRequest.account());

@@ -5,8 +5,8 @@ import com.loopers.domain.user.User;
 import com.loopers.interfaces.api.user.UserV1RequestDto;
 
 public class UserFixture {
-    public static UserV1RequestDto.UserRegisterRequest createUserRegisterRequest() {
-        return new UserV1RequestDto.UserRegisterRequest(
+    public static UserV1RequestDto.Register createUserRegisterRequest() {
+        return new UserV1RequestDto.Register(
                 "gil123", "gil1234@gmail.com", "2020-01-01", Gender.MALE
         );
     }

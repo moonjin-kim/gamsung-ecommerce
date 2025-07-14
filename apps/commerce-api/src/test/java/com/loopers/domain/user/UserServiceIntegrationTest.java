@@ -37,7 +37,7 @@ class UserServiceIntegrationTest {
         @Test
         void registerMember_whenAllMemberInfoAreProvide(){
             //given
-            UserV1RequestDto.UserRegisterRequest request = UserFixture.createUserRegisterRequest();
+            UserV1RequestDto.Register request = UserFixture.createUserRegisterRequest();
 
             //when
             User user = userService.registerMember(request);
@@ -58,7 +58,7 @@ class UserServiceIntegrationTest {
         @Test
         void throwsException_whenAlreadyRegisteredMember() {
             //given
-            UserV1RequestDto.UserRegisterRequest request = UserFixture.createUserRegisterRequest();
+            UserV1RequestDto.Register request = UserFixture.createUserRegisterRequest();
             User user = userJpaRepository.save(
                     User.register(request)
             );
