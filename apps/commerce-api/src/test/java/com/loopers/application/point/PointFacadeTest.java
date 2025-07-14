@@ -9,6 +9,7 @@ import com.loopers.infrastructure.user.UserJpaRepository;
 import com.loopers.support.error.CoreException;
 import com.loopers.support.error.ErrorType;
 import com.loopers.utils.DatabaseCleanUp;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -30,7 +31,12 @@ class PointFacadeTest {
     @Autowired
     private DatabaseCleanUp databaseCleanUp;
 
-    @DisplayName("")
+    @AfterEach
+    void tearDown() {
+        databaseCleanUp.truncateAllTables();
+    }
+
+    @DisplayName("유저가 포인트 충전 시,")
     @Nested
     class chargePoint {
 
@@ -42,7 +48,7 @@ class PointFacadeTest {
             PointChargeRequest chargeRequest = new PointChargeRequest(1000);
 
             //when
-            PointInfo result = pointFacade.chargePoint(user.getId(), chargeRequest);
+            PointInfo result = pointFacade.chargePoint(user.getAccount(), chargeRequest);
 
             //then
             assertAll(
@@ -63,7 +69,7 @@ class PointFacadeTest {
             PointChargeRequest chargeRequest = new PointChargeRequest(1000);
 
             //when
-            PointInfo result = pointFacade.chargePoint(user.getId(), chargeRequest);
+            PointInfo result = pointFacade.chargePoint(user.getAccount(), chargeRequest);
 
             //then
             assertAll(
@@ -81,7 +87,7 @@ class PointFacadeTest {
 
             //when
             CoreException exception = assertThrows(CoreException.class, () -> {
-                pointFacade.chargePoint(-1L, chargeRequest);
+                pointFacade.chargePoint("human", chargeRequest);
             });
 
             //then
@@ -105,7 +111,7 @@ class PointFacadeTest {
             );
 
             //when
-            PointInfo result = pointFacade.getBalance(user.getId());
+            PointInfo result = pointFacade.getBalance(user.getAccount());
 
             //then
             assertAll(
@@ -122,7 +128,7 @@ class PointFacadeTest {
 
             //when
             CoreException exception = assertThrows(CoreException.class, () -> {
-                pointFacade.getBalance(1L);
+                pointFacade.getBalance("human");
             });
 
             //then

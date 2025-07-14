@@ -9,7 +9,13 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 public interface UserV1ApiSpec {
     @Operation(
             summary = "회원가입",
-            description = "ID로 예시를 조회합니다."
+            description = "ID, 이메일, 생년월일, 성별로 회원가입한다."
     )
     ApiResponse<UserV1Dto.UserResponse> register(UserRegisterRequest requestBody);
+
+    @Operation(
+            summary = "회원조회",
+            description = "ID로 유저를 조회합니다."
+    )
+    ApiResponse<UserV1Dto.UserResponse> getUser(String account);
 }

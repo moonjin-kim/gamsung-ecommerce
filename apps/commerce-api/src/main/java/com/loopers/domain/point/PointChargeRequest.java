@@ -1,4 +1,9 @@
 package com.loopers.domain.point;
 
-public record PointChargeRequest(int amount) {
+import jakarta.validation.constraints.NotNull;
+
+public record PointChargeRequest(
+        @NotNull
+        int amount
+) {
 }

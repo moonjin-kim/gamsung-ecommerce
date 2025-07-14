@@ -10,7 +10,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
-import java.time.format.DateTimeParseException;
 import java.util.regex.Pattern;
 
 @Entity
@@ -35,6 +34,7 @@ public class User extends BaseEntity {
 
     static User create(UserRegisterRequest registerRequest) {
         User user = new User();
+        
         if(registerRequest.email() == null || registerRequest.email().isEmpty()) {
             throw new CoreException(ErrorType.BAD_REQUEST, "이메일은 비어있을 수 없습니다.");
         }
