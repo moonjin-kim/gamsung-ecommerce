@@ -10,7 +10,7 @@ import org.springframework.stereotype.Component;
 public class UserFacade {
     private final UserService userService;
 
-    public UserInfo registerUser(UserV1RequestDto.UserRegisterRequest request) {
+    public UserInfo registerUser(UserV1RequestDto.Register request) {
         return UserInfo.from(userService.registerMember(request));
     }
 

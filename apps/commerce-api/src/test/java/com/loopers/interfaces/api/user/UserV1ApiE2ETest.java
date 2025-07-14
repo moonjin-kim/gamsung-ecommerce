@@ -57,7 +57,7 @@ class UserV1ApiE2ETest {
         @Test
         void returnsUserInfo_whenValidBodyIsProvided() {
             //given
-            var request = new UserV1RequestDto.UserRegisterRequest(
+            var request = new UserV1RequestDto.Register(
                     "gil123","gildong@gmail.com", "2020-01-01", Gender.MALE
             );
 
@@ -68,7 +68,7 @@ class UserV1ApiE2ETest {
                     testRestTemplate.exchange(
                             ENDPOINT_REGISTER,
                             HttpMethod.POST,
-                            new HttpEntity<UserV1RequestDto.UserRegisterRequest>(request),
+                            new HttpEntity<UserV1RequestDto.Register>(request),
                             responseType
                     );
 
@@ -83,11 +83,11 @@ class UserV1ApiE2ETest {
         @DisplayName("회원가입 시 잘못된 값이 들어오면, 400 BAD_REQUEST 응답을 받는다.")
         @ParameterizedTest
         @MethodSource("provideInvalidUserRegisterRequests")
-        void returnsBadRequest_whenInvalidBodyIsProvided(UserV1RequestDto.UserRegisterRequest invalidRequest) {
+        void returnsBadRequest_whenInvalidBodyIsProvided(UserV1RequestDto.Register invalidRequest) {
             // given
             HttpHeaders headers = new HttpHeaders();
             headers.setContentType(MediaType.APPLICATION_JSON);
-            HttpEntity<UserV1RequestDto.UserRegisterRequest> requestEntity = new HttpEntity<>(invalidRequest, headers);
+            HttpEntity<UserV1RequestDto.Register> requestEntity = new HttpEntity<>(invalidRequest, headers);
 
             // when
             ResponseEntity<Void> response = testRestTemplate.exchange(
@@ -107,10 +107,10 @@ class UserV1ApiE2ETest {
 
         private static Stream<Arguments> provideInvalidUserRegisterRequests() {
             return Stream.of(
-                    Arguments.of(new UserV1RequestDto.UserRegisterRequest(null, "test@email.com", "2000-01-01", Gender.MALE)), //아이디 없음
-                    Arguments.of(new UserV1RequestDto.UserRegisterRequest("short", null, "2000-01-01", Gender.MALE)), // 이메일 없음
-                    Arguments.of(new UserV1RequestDto.UserRegisterRequest("hong123", "test@email.com", null, Gender.MALE)), //생년월일 없음
-                    Arguments.of(new UserV1RequestDto.UserRegisterRequest("hong1234", "test@email.com", "2000-01-01", null))  //성별없ㅇ므
+                    Arguments.of(new UserV1RequestDto.Register(null, "test@email.com", "2000-01-01", Gender.MALE)), //아이디 없음
+                    Arguments.of(new UserV1RequestDto.Register("short", null, "2000-01-01", Gender.MALE)), // 이메일 없음
+                    Arguments.of(new UserV1RequestDto.Register("hong123", "test@email.com", null, Gender.MALE)), //생년월일 없음
+                    Arguments.of(new UserV1RequestDto.Register("hong1234", "test@email.com", "2000-01-01", null))  //성별없ㅇ므
             );
         }
     }
