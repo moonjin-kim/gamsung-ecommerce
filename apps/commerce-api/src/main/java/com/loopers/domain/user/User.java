@@ -21,22 +21,25 @@ public class User extends BaseEntity {
 
     @Column(length = 100, nullable = false)
     String account;
-    @Column(length = 50, nullable = false)
-    String email;
+    @Embedded
+    Email email;
     @Column
     LocalDate birthday;
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     Sex sex;
 
-
-    static String ACCOUNT_PATTERN = "^[a-zA-Z0-9]{1,10}$";
-    static String EMAIL_PATTERN = "^[a-zA-Z0-9_+&*-]+(?:\\.[a-zA-Z0-9_+&*-]+)*@(?:[a-zA-Z0-9_+&*-]+\\.)+[a-zA-Z]{2,7}$";
+    private static final String ACCOUNT_PATTERN = "^[a-zA-Z0-9]{1,10}$";
+    private static final String BIRTH_DATE_REGEX =
+            "^(19|20)\\d{2}-(0[1-9]|1[0-2])-(0[1-9]|[12]\\d|3[01])$";
 
     static User create(UserRegisterRequest registerRequest) {
         User user = new User();
+        if(registerRequest.email() == null || registerRequest.email().isEmpty()) {
+            throw new CoreException(ErrorType.BAD_REQUEST, "이메일은 비어있을 수 없습니다.");
+        }
+        user.email = new Email(registerRequest.email());
 
-        user.setEmail(registerRequest.email());
         user.setAccount(registerRequest.account());
         user.setBirthdayFromString(registerRequest.birthday());
 
@@ -58,27 +61,16 @@ public class User extends BaseEntity {
         this.account = account;
     }
 
-    private void setEmail(String email) {
-        if(email == null || email.isEmpty()) {
-            throw new CoreException(ErrorType.BAD_REQUEST, "이메일은 비어있을 수 없습니다.");
-        }
-
-        if(!Pattern.matches(EMAIL_PATTERN, email)) {
-            throw new CoreException(ErrorType.BAD_REQUEST, "아이디 형식이 잘못되었습니다.");
-        }
-        this.email = email;
-    }
-
     private void setBirthdayFromString(String birthday) {
         if(birthday == null || birthday.isEmpty()) {
             throw new CoreException(ErrorType.BAD_REQUEST, "생년월일은 비어있을 수 없습니다.");
         }
 
-        try {
-            this.birthday = LocalDate.parse(birthday);
-        } catch (DateTimeParseException e) {
+        if(!Pattern.matches(BIRTH_DATE_REGEX, birthday)) {
             throw new CoreException(ErrorType.BAD_REQUEST, "생년월일 형식이 잘못되었습니다.");
         }
+
+        this.birthday = LocalDate.parse(birthday);
     }
 
 

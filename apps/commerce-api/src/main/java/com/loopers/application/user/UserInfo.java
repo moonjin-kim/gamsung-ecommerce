@@ -16,7 +16,7 @@ public record UserInfo(
         return new UserInfo(
                 user.getId(),
                 user.getAccount(),
-                user.getEmail(),
+                user.getEmail().address(),
                 user.getBirthday(),
                 user.getSex()
         );
