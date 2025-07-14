@@ -28,8 +28,6 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 class UserV1ApiE2ETest {
-    private static final String ENDPOINT_REGISTER = "/api/v1/users";
-    private static final String ENDPOINT_GET_ME = "/api/v1/users/me";
 
     private final UserJpaRepository userJpaRepository;
     private final TestRestTemplate testRestTemplate;
@@ -54,6 +52,7 @@ class UserV1ApiE2ETest {
     @DisplayName("Post /api/v1/users")
     @Nested
     class RegisterUser {
+        private static final String ENDPOINT_REGISTER = "/api/v1/users";
 
         @DisplayName("올바른 회원정보를 포함하여 회원가입 요청시, 회원가입한 유저 정보를 받는다.")
         @Test
@@ -120,6 +119,7 @@ class UserV1ApiE2ETest {
     @DisplayName("Get /api/v1/users/me")
     @Nested
     class GetUsers {
+        private static final String ENDPOINT_GET_ME = "/api/v1/users/me";
 
         @DisplayName("내 정보 조회에 성공할 경우, 해당하는 유저 정보를 응답으로 반환한다.")
         @Test
