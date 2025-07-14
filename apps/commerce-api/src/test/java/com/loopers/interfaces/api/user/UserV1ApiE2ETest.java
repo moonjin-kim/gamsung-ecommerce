@@ -2,7 +2,6 @@ package com.loopers.interfaces.api.user;
 
 import com.loopers.domain.user.Gender;
 import com.loopers.domain.user.User;
-import com.loopers.domain.user.UserRegisterRequest;
 import com.loopers.fixture.UserFixture;
 import com.loopers.infrastructure.user.UserJpaRepository;
 import com.loopers.interfaces.api.ApiResponse;
@@ -58,18 +57,18 @@ class UserV1ApiE2ETest {
         @Test
         void returnsUserInfo_whenValidBodyIsProvided() {
             //given
-            UserRegisterRequest request = new UserRegisterRequest(
+            var request = new UserV1RequestDto.UserRegisterRequest(
                     "gil123","gildong@gmail.com", "2020-01-01", Gender.MALE
             );
 
             //when
-            ParameterizedTypeReference<ApiResponse<UserV1Dto.UserResponse>> responseType = new ParameterizedTypeReference<>() {
+            ParameterizedTypeReference<ApiResponse<UserV1ResponseDto.UserResponse>> responseType = new ParameterizedTypeReference<>() {
             };
-            ResponseEntity<ApiResponse<UserV1Dto.UserResponse>> response =
+            ResponseEntity<ApiResponse<UserV1ResponseDto.UserResponse>> response =
                     testRestTemplate.exchange(
                             ENDPOINT_REGISTER,
                             HttpMethod.POST,
-                            new HttpEntity<UserRegisterRequest>(request),
+                            new HttpEntity<UserV1RequestDto.UserRegisterRequest>(request),
                             responseType
                     );
 
@@ -84,11 +83,11 @@ class UserV1ApiE2ETest {
         @DisplayName("회원가입 시 잘못된 값이 들어오면, 400 BAD_REQUEST 응답을 받는다.")
         @ParameterizedTest
         @MethodSource("provideInvalidUserRegisterRequests")
-        void returnsBadRequest_whenInvalidBodyIsProvided(UserRegisterRequest invalidRequest) {
+        void returnsBadRequest_whenInvalidBodyIsProvided(UserV1RequestDto.UserRegisterRequest invalidRequest) {
             // given
             HttpHeaders headers = new HttpHeaders();
             headers.setContentType(MediaType.APPLICATION_JSON);
-            HttpEntity<UserRegisterRequest> requestEntity = new HttpEntity<>(invalidRequest, headers);
+            HttpEntity<UserV1RequestDto.UserRegisterRequest> requestEntity = new HttpEntity<>(invalidRequest, headers);
 
             // when
             ResponseEntity<Void> response = testRestTemplate.exchange(
@@ -108,10 +107,10 @@ class UserV1ApiE2ETest {
 
         private static Stream<Arguments> provideInvalidUserRegisterRequests() {
             return Stream.of(
-                    Arguments.of(new UserRegisterRequest(null, "test@email.com", "2000-01-01", Gender.MALE)), //아이디 없음
-                    Arguments.of(new UserRegisterRequest("short", null, "2000-01-01", Gender.MALE)), // 이메일 없음
-                    Arguments.of(new UserRegisterRequest("hong123", "test@email.com", null, Gender.MALE)), //생년월일 없음
-                    Arguments.of(new UserRegisterRequest("hong1234", "test@email.com", "2000-01-01", null))  //성별없ㅇ므
+                    Arguments.of(new UserV1RequestDto.UserRegisterRequest(null, "test@email.com", "2000-01-01", Gender.MALE)), //아이디 없음
+                    Arguments.of(new UserV1RequestDto.UserRegisterRequest("short", null, "2000-01-01", Gender.MALE)), // 이메일 없음
+                    Arguments.of(new UserV1RequestDto.UserRegisterRequest("hong123", "test@email.com", null, Gender.MALE)), //생년월일 없음
+                    Arguments.of(new UserV1RequestDto.UserRegisterRequest("hong1234", "test@email.com", "2000-01-01", null))  //성별없ㅇ므
             );
         }
     }
@@ -133,9 +132,9 @@ class UserV1ApiE2ETest {
             headers.set("X-USER-ID", user.getAccount());
 
             //when
-            ParameterizedTypeReference<ApiResponse<UserV1Dto.UserResponse>> responseType = new ParameterizedTypeReference<>() {
+            ParameterizedTypeReference<ApiResponse<UserV1ResponseDto.UserResponse>> responseType = new ParameterizedTypeReference<>() {
             };
-            ResponseEntity<ApiResponse<UserV1Dto.UserResponse>> response =
+            ResponseEntity<ApiResponse<UserV1ResponseDto.UserResponse>> response =
                     testRestTemplate.exchange(
                             ENDPOINT_GET_ME,
                             HttpMethod.GET,
@@ -163,9 +162,9 @@ class UserV1ApiE2ETest {
             headers.set("X-USER-ID", "-1");
 
             //when
-            ParameterizedTypeReference<ApiResponse<UserV1Dto.UserResponse>> responseType = new ParameterizedTypeReference<>() {
+            ParameterizedTypeReference<ApiResponse<UserV1ResponseDto.UserResponse>> responseType = new ParameterizedTypeReference<>() {
             };
-            ResponseEntity<ApiResponse<UserV1Dto.UserResponse>> response =
+            ResponseEntity<ApiResponse<UserV1ResponseDto.UserResponse>> response =
                     testRestTemplate.exchange(
                             ENDPOINT_GET_ME,
                             HttpMethod.GET,

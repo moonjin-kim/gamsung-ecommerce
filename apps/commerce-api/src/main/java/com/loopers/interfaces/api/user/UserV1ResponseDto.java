@@ -5,7 +5,7 @@ import com.loopers.domain.user.Gender;
 
 import java.time.LocalDate;
 
-public class UserV1Dto {
+public class UserV1ResponseDto {
     public record UserResponse(
             Long id,
             String account,
@@ -13,8 +13,8 @@ public class UserV1Dto {
             LocalDate birthday,
             Gender sex
     ){
-        public static UserV1Dto.UserResponse from(UserInfo info) {
-            return new UserV1Dto.UserResponse(
+        public static UserV1ResponseDto.UserResponse from(UserInfo info) {
+            return new UserV1ResponseDto.UserResponse(
                     info.id(),
                     info.account(),
                     info.email(),

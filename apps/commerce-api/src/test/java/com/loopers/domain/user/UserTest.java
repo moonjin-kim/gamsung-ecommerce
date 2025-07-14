@@ -1,6 +1,7 @@
 package com.loopers.domain.user;
 
 import com.loopers.fixture.UserFixture;
+import com.loopers.interfaces.api.user.UserV1RequestDto;
 import com.loopers.support.error.CoreException;
 import com.loopers.support.error.ErrorType;
 import org.junit.jupiter.api.DisplayName;
@@ -18,7 +19,7 @@ class UserTest {
         @Test
         void registerMember(){
             //given
-            UserRegisterRequest request = UserFixture.createUserRegisterRequest();
+            UserV1RequestDto.UserRegisterRequest request = UserFixture.createUserRegisterRequest();
 
             //when
             User user = User.register(request);
@@ -36,10 +37,10 @@ class UserTest {
         @Test
         void throwsBadRequestException_whenAccountLenOverTen(){
             //given
-            UserRegisterRequest request1 = new UserRegisterRequest(
+            UserV1RequestDto.UserRegisterRequest request1 = new UserV1RequestDto.UserRegisterRequest(
                     "gil12312312","gildong@gmail.com", "2020-01-01", Gender.MALE
             );
-            UserRegisterRequest request2 = new UserRegisterRequest(
+            UserV1RequestDto.UserRegisterRequest request2 = new UserV1RequestDto.UserRegisterRequest(
                     "홍길동12312312","gildong@gmail.com", "2020-01-01", Gender.MALE
             );
 
@@ -60,7 +61,7 @@ class UserTest {
         @Test
         void throwsBadRequestException_whenIncorrectEmailFormat(){
             //given
-            UserRegisterRequest request = new UserRegisterRequest(
+            UserV1RequestDto.UserRegisterRequest request = new UserV1RequestDto.UserRegisterRequest(
                     "gil123","gildong",  "2020-01-01", Gender.MALE
             );
 
@@ -77,7 +78,7 @@ class UserTest {
         @Test
         void throwsBadRequestException_whenIncorrectBirthDayFormat(){
             //given
-            UserRegisterRequest request = new UserRegisterRequest(
+            UserV1RequestDto.UserRegisterRequest request = new UserV1RequestDto.UserRegisterRequest(
                     "gil123","gildong@gmail.com", "2020-01", Gender.MALE
             );
 
@@ -94,7 +95,7 @@ class UserTest {
         @Test
         void throwsBadRequestException_whenIncorrectSex(){
             //given
-            UserRegisterRequest request = new UserRegisterRequest(
+            UserV1RequestDto.UserRegisterRequest request = new UserV1RequestDto.UserRegisterRequest(
                     "gil123","gildong@gmail.com", "2020-01", null
             );
 
