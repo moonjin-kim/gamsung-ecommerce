@@ -38,7 +38,7 @@ class UserServiceIntegrationTest {
         void registerMember_whenAllMemberInfoAreProvide(){
             //given
             UserRegisterRequest request = new UserRegisterRequest(
-                    "gil123","gil1234@gmail.com", "2020-01-01", Sex.MALE
+                    "gil123","gil1234@gmail.com", "2020-01-01", Gender.MALE
             );
 
             //when
@@ -52,7 +52,7 @@ class UserServiceIntegrationTest {
                     () -> assertThat(savedUser.getAccount()).isEqualTo(request.account()),
                     () -> assertThat(savedUser.getEmail()).isEqualTo(request.email()),
                     () -> assertThat(savedUser.getBirthday()).isEqualTo(request.birthday()),
-                    () -> assertThat(savedUser.getSex()).isEqualTo(request.sex())
+                    () -> assertThat(savedUser.getGender()).isEqualTo(request.gender())
             );
         }
 
@@ -61,7 +61,7 @@ class UserServiceIntegrationTest {
         void throwsException_whenAlreadyRegisteredMember() {
             //given
             UserRegisterRequest request = new UserRegisterRequest(
-                    "gil123","gil1234@gmail.com", "2020-01-01", Sex.MALE
+                    "gil123","gil1234@gmail.com", "2020-01-01", Gender.MALE
             );
             User user = userJpaRepository.save(
                     User.create(request)
@@ -87,7 +87,7 @@ class UserServiceIntegrationTest {
             User user = userJpaRepository.save(
                     User.create(
                             new UserRegisterRequest(
-                            "gil123","gil1234@gmail.com", "2020-01-01", Sex.MALE
+                            "gil123","gil1234@gmail.com", "2020-01-01", Gender.MALE
                             )
                     )
             );
@@ -102,7 +102,7 @@ class UserServiceIntegrationTest {
                     () -> assertThat(result.getAccount()).isEqualTo(user.getAccount()),
                     () -> assertThat(result.getEmail()).isEqualTo(user.getEmail()),
                     () -> assertThat(result.getBirthday()).isEqualTo(user.getBirthday()),
-                    () -> assertThat(result.getSex()).isEqualTo(user.getSex())
+                    () -> assertThat(result.getGender()).isEqualTo(user.getGender())
             );
         }
 

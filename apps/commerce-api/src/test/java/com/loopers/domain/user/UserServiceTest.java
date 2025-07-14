@@ -27,7 +27,7 @@ class UserServiceTest {
         void registerMember_whenAllMemberInfoAreProvide(){
             //given
             UserRegisterRequest request = new UserRegisterRequest(
-                    "gil123","gildong@gmail.com", "2020-01-01", Sex.MALE
+                    "gil123","gildong@gmail.com", "2020-01-01", Gender.MALE
             );
             User userToSave = User.create(request);
             when(memberRepository.save(any(User.class))).thenReturn(userToSave);

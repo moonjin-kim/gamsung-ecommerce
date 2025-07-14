@@ -4,6 +4,6 @@ public record UserRegisterRequest(
         String account,
         String email,
         String birthday,
-        Sex sex
+        Gender gender
 ) {
 }

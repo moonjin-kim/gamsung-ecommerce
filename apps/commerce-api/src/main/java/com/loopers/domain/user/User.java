@@ -1,7 +1,6 @@
 package com.loopers.domain.user;
 
 import com.loopers.domain.BaseEntity;
-import com.loopers.domain.Email;
 import com.loopers.support.error.CoreException;
 import com.loopers.support.error.ErrorType;
 import jakarta.persistence.*;
@@ -27,7 +26,7 @@ public class User extends BaseEntity {
     LocalDate birthday;
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
-    Sex sex;
+    Gender gender;
 
 
     static String ACCOUNT_PATTERN = "^[a-zA-Z0-9]{1,10}$";
@@ -40,10 +39,10 @@ public class User extends BaseEntity {
         user.setAccount(registerRequest.account());
         user.setBirthdayFromString(registerRequest.birthday());
 
-        if (registerRequest.sex() == null) {
+        if (registerRequest.gender() == null) {
             throw new CoreException(ErrorType.BAD_REQUEST, "성별은 비어있을 수 없습니다.");
         }
-        user.sex = registerRequest.sex();
+        user.gender = registerRequest.gender();
 
         return user;
     }
