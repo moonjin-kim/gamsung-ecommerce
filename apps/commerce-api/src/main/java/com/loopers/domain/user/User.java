@@ -2,7 +2,6 @@ package com.loopers.domain.user;
 
 import com.loopers.domain.BaseEntity;
 import com.loopers.domain.Email;
-import com.loopers.interfaces.api.user.UserV1RequestDto;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -26,19 +25,19 @@ public class User extends BaseEntity {
     @Column(nullable = false)
     Gender gender;
 
-    public static User register(UserV1RequestDto.Register registerRequest) {
+    public static User register(UserCommand.Create command) {
         User user = new User();
 
-        UserValidator.validateAccount(registerRequest.account());
-        user.account = registerRequest.account();
+        UserValidator.validateAccount(command.account());
+        user.account = command.account();
 
-        user.email = new Email(registerRequest.email());
+        user.email = new Email(command.email());
 
-        UserValidator.validateBirthday(registerRequest.birthday());
-        user.birthday = LocalDate.parse(registerRequest.birthday());
+        UserValidator.validateBirthday(command.birthday());
+        user.birthday = LocalDate.parse(command.birthday());
 
-        UserValidator.validateGender(registerRequest.gender());
-        user.gender = registerRequest.gender();
+        UserValidator.validateGender(command.gender());
+        user.gender = command.gender();
 
         return user;
     }

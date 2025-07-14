@@ -1,6 +1,5 @@
 package com.loopers.interfaces.api.user;
 
-import com.loopers.domain.user.Gender;
 import com.loopers.domain.user.User;
 import com.loopers.fixture.UserFixture;
 import com.loopers.infrastructure.user.UserJpaRepository;
@@ -58,7 +57,7 @@ class UserV1ApiE2ETest {
         void returnsUserInfo_whenValidBodyIsProvided() {
             //given
             var request = new UserV1RequestDto.Register(
-                    "gil123","gildong@gmail.com", "2020-01-01", Gender.MALE
+                    "gil123","gildong@gmail.com", "2020-01-01", UserV1RequestDto.GenderRequest.MALE
             );
 
             //when
@@ -107,10 +106,10 @@ class UserV1ApiE2ETest {
 
         private static Stream<Arguments> provideInvalidUserRegisterRequests() {
             return Stream.of(
-                    Arguments.of(new UserV1RequestDto.Register(null, "test@email.com", "2000-01-01", Gender.MALE)), //아이디 없음
-                    Arguments.of(new UserV1RequestDto.Register("short", null, "2000-01-01", Gender.MALE)), // 이메일 없음
-                    Arguments.of(new UserV1RequestDto.Register("hong123", "test@email.com", null, Gender.MALE)), //생년월일 없음
-                    Arguments.of(new UserV1RequestDto.Register("hong1234", "test@email.com", "2000-01-01", null))  //성별없ㅇ므
+                    Arguments.of(new UserV1RequestDto.Register(null, "test@email.com", "2000-01-01", UserV1RequestDto.GenderRequest.MALE)), //아이디 없음
+                    Arguments.of(new UserV1RequestDto.Register("short", null, "2000-01-01", UserV1RequestDto.GenderRequest.MALE)), // 이메일 없음
+                    Arguments.of(new UserV1RequestDto.Register("hong123", "test@email.com", null, UserV1RequestDto.GenderRequest.MALE)), //생년월일 없음
+                    Arguments.of(new UserV1RequestDto.Register("hong1234", "test@email.com", "2000-01-01", null))  //성별없므
             );
         }
     }
@@ -149,7 +148,7 @@ class UserV1ApiE2ETest {
                     () -> assertThat(response.getBody().data().account()).isEqualTo(user.getAccount()),
                     () -> assertThat(response.getBody().data().birthday()).isEqualTo(user.getBirthday()),
                     () -> assertThat(response.getBody().data().email()).isEqualTo(user.getEmail().address()),
-                    () -> assertThat(response.getBody().data().sex()).isEqualTo(user.getGender())
+                    () -> assertThat(response.getBody().data().gender()).isEqualTo(UserV1ResponseDto.GenderResponse.from(user.getGender()))
             );
         }
 
