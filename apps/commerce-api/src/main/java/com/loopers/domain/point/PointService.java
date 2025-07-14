@@ -15,12 +15,8 @@ import java.util.Optional;
 @Transactional(readOnly = true)
 public class PointService {
     private final PointRepository pointRepository;
-    private final UserRepository userRepository;
 
-    public Point chargePoint(Long userId, int amount) {
-        User user = userRepository.find(userId).orElseThrow(() ->
-                new CoreException(ErrorType.NOT_FOUND, "[id = " + userId + "] 존재하지 않는 회원입니다.")
-        );
+    public Point chargePoint(User user, int amount) {
 
         Optional<Point> lastPoint = pointRepository.findLastByUser(user);
         int currentBalance = lastPoint.map(Point::getBalance).orElse(0);
@@ -28,11 +24,7 @@ public class PointService {
         return Point.charge(user, amount, currentBalance);
     }
 
-    public int getBalance(Long userId) {
-        User user = userRepository.find(userId).orElseThrow(() ->
-                new CoreException(ErrorType.NOT_FOUND, "[id = " + userId + "] 존재하지 않는 회원입니다.")
-        );
-
+    public int getBalance(User user) {
         Optional<Point> lastPoint = pointRepository.findLastByUser(user);
         return lastPoint.map(Point::getBalance).orElse(0);
     }
