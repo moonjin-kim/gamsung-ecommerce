@@ -29,7 +29,7 @@ class UserServiceTest {
         void registerMember_whenAllMemberInfoAreProvide(){
             //given
             UserV1RequestDto.Register request = UserFixture.createUserRegisterRequest();
-            User userToSave = User.register(request);
+            User userToSave = User.register(request.toCommand());
 
             when(memberRepository.save(any(User.class))).thenReturn(userToSave);
 

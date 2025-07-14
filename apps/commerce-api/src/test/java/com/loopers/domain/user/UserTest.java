@@ -21,7 +21,7 @@ class UserTest {
         @Test
         void registerMember(){
             //given
-            UserV1RequestDto.Register request = UserFixture.createUserRegisterRequest();
+            UserCommand.Create request = UserFixture.createUserCreateCommand();
 
             //when
             User user = User.register(request);
@@ -45,7 +45,7 @@ class UserTest {
         })
         void throwsBadRequestException_whenAccountLenOverTen(String account){
             //given
-            UserV1RequestDto.Register request1 = new UserV1RequestDto.Register(
+            UserCommand.Create request1 = new UserCommand.Create(
                     account,"gildong@gmail.com", "2020-01-01", Gender.MALE
             );
 
@@ -68,8 +68,8 @@ class UserTest {
         })
         void throwsBadRequestException_whenIncorrectEmailFormat(String email){
             //given
-            UserV1RequestDto.Register request = new UserV1RequestDto.Register(
-                    "gil123",email,  "2020-01-01", Gender.MALE
+            UserCommand.Create request = new UserCommand.Create(
+                    "gil123",email, "2020-01-01", Gender.MALE
             );
 
             //when
@@ -91,8 +91,8 @@ class UserTest {
         })
         void throwsBadRequestException_whenIncorrectBirthDayFormat(String birthday){
             //given
-            UserV1RequestDto.Register request = new UserV1RequestDto.Register(
-                    "gil123","gildong@gmail.com", birthday, Gender.MALE
+            UserCommand.Create request = new UserCommand.Create(
+                    "gildong","gildong@gmail.com", birthday, Gender.MALE
             );
 
             //when
@@ -108,8 +108,8 @@ class UserTest {
         @Test
         void throwsBadRequestException_whenIncorrectSex(){
             //given
-            UserV1RequestDto.Register request = new UserV1RequestDto.Register(
-                    "gil123","gildong@gmail.com", "2020-01", null
+            UserCommand.Create request = new UserCommand.Create(
+                    "gildong","gildong@gmail.com", "2020-01", Gender.MALE
             );
 
             //when

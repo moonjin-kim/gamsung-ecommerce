@@ -1,6 +1,7 @@
 package com.loopers.interfaces.api.user;
 
 import com.loopers.domain.user.Gender;
+import com.loopers.domain.user.UserCommand;
 import jakarta.validation.constraints.NotNull;
 
 public class UserV1RequestDto {
@@ -12,7 +13,20 @@ public class UserV1RequestDto {
             @NotNull
             String birthday,
             @NotNull
-            Gender gender
+            GenderRequest gender
     ) {
+        public UserCommand.Create toCommand() {
+            return new UserCommand.Create(
+                    account,
+                    email,
+                    birthday,
+                    Gender.from(gender)
+            );
+        }
+    }
+
+    public enum GenderRequest {
+        MALE,
+        FEMALE
     }
 }

@@ -3,6 +3,7 @@ package com.loopers.domain.user;
 import com.loopers.fixture.UserFixture;
 import com.loopers.infrastructure.user.UserJpaRepository;
 import com.loopers.interfaces.api.user.UserV1RequestDto;
+import com.loopers.interfaces.api.user.UserV1ResponseDto;
 import com.loopers.support.error.CoreException;
 import com.loopers.support.error.ErrorType;
 import com.loopers.utils.DatabaseCleanUp;
@@ -50,7 +51,7 @@ class UserServiceIntegrationTest {
                     () -> assertThat(savedUser.getAccount()).isEqualTo(request.account()),
                     () -> assertThat(savedUser.getEmail().address()).isEqualTo(request.email()),
                     () -> assertThat(savedUser.getBirthday()).isEqualTo(request.birthday()),
-                    () -> assertThat(savedUser.getGender()).isEqualTo(request.gender())
+                    () -> assertThat(savedUser.getGender()).isEqualTo(user.gender)
             );
         }
 
@@ -60,7 +61,7 @@ class UserServiceIntegrationTest {
             //given
             UserV1RequestDto.Register request = UserFixture.createUserRegisterRequest();
             User user = userJpaRepository.save(
-                    User.register(request)
+                    User.register(request.toCommand())
             );
 
             //when
