@@ -18,7 +18,7 @@ public record UserInfo(
                 user.getAccount(),
                 user.getEmail().address(),
                 user.getBirthday(),
-                user.getSex()
+                user.getGender()
         );
     }
 }

@@ -12,7 +12,7 @@ public class UserV1RequestDto {
             @NotNull
             String birthday,
             @NotNull
-            Gender sex
+            Gender gender
     ) {
     }
 }

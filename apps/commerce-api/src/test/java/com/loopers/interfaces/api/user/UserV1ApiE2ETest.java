@@ -149,7 +149,7 @@ class UserV1ApiE2ETest {
                     () -> assertThat(response.getBody().data().account()).isEqualTo(user.getAccount()),
                     () -> assertThat(response.getBody().data().birthday()).isEqualTo(user.getBirthday()),
                     () -> assertThat(response.getBody().data().email()).isEqualTo(user.getEmail().address()),
-                    () -> assertThat(response.getBody().data().sex()).isEqualTo(user.getSex())
+                    () -> assertThat(response.getBody().data().sex()).isEqualTo(user.getGender())
             );
         }
 

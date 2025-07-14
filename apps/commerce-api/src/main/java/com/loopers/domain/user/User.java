@@ -11,7 +11,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
-import java.util.regex.Pattern;
 
 @Entity
 @Table(name = "member")
@@ -27,51 +26,26 @@ public class User extends BaseEntity {
     LocalDate birthday;
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
-    Gender sex;
-
-    private static final String ACCOUNT_PATTERN = "^[a-zA-Z0-9]{1,10}$";
-    private static final String BIRTH_DATE_REGEX =
-            "^(19|20)\\d{2}-(0[1-9]|1[0-2])-(0[1-9]|[12]\\d|3[01])$";
+    Gender gender;
 
     public static User register(UserV1RequestDto.UserRegisterRequest registerRequest) {
         User user = new User();
 
-        if(registerRequest.email() == null || registerRequest.email().isEmpty()) {
-            throw new CoreException(ErrorType.BAD_REQUEST, "이메일은 비어있을 수 없습니다.");
-        }
         user.email = new Email(registerRequest.email());
 
-        user.setAccount(registerRequest.account());
-        user.setBirthdayFromString(registerRequest.birthday());
+        UserValidator.validateAccount(registerRequest.account());
+        user.account = registerRequest.account();
 
-        if (registerRequest.sex() == null) {
+        UserValidator.validateBirthday(registerRequest.birthday());
+        user.birthday = LocalDate.parse(registerRequest.birthday());
+
+        if (registerRequest.gender() == null) {
             throw new CoreException(ErrorType.BAD_REQUEST, "성별은 비어있을 수 없습니다.");
         }
-        user.sex = registerRequest.sex();
+        UserValidator.validateGender(registerRequest.gender());
+        user.gender = registerRequest.gender();
 
         return user;
-    }
-
-    private void setAccount(String account) {
-        if(account == null || account.isEmpty()) {
-            throw new CoreException(ErrorType.BAD_REQUEST, "아이디는 비어있을 수 없습니다.");
-        }
-        if(!Pattern.matches(ACCOUNT_PATTERN, account)) {
-            throw new CoreException(ErrorType.BAD_REQUEST, "아이디 형식이 잘못되었습니다.");
-        }
-        this.account = account;
-    }
-
-    private void setBirthdayFromString(String birthday) {
-        if(birthday == null || birthday.isEmpty()) {
-            throw new CoreException(ErrorType.BAD_REQUEST, "생년월일은 비어있을 수 없습니다.");
-        }
-
-        if(!Pattern.matches(BIRTH_DATE_REGEX, birthday)) {
-            throw new CoreException(ErrorType.BAD_REQUEST, "생년월일 형식이 잘못되었습니다.");
-        }
-
-        this.birthday = LocalDate.parse(birthday);
     }
 
 
