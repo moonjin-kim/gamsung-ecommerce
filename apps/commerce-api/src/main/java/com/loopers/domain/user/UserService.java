@@ -22,13 +22,13 @@ public class UserService {
 
     @Transactional(readOnly = true)
     public User getUser(String account) {
-        return userRepository.findByAccount(account).orElseThrow(() ->
+        return userRepository.findBy(account).orElseThrow(() ->
                 new CoreException(ErrorType.NOT_FOUND, "[account = " + account + "] 존재하지 않는 회원입니다.")
         );
     }
 
     private void checkDuplicateAccount(String account) {
-        if (userRepository.findByAccount(account).isPresent()) {
+        if (userRepository.findBy(account).isPresent()) {
             throw new CoreException(ErrorType.BAD_REQUEST,"이미 존재하는 아이디입니다: " + account);
         }
     }

@@ -18,7 +18,7 @@ import java.time.LocalDate;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class User extends BaseEntity {
 
-    @Column(length = 100, nullable = false)
+    @Column(length = 100, unique = true, nullable = false)
     String account;
     @Embedded
     Email email;
@@ -31,17 +31,14 @@ public class User extends BaseEntity {
     public static User register(UserV1RequestDto.UserRegisterRequest registerRequest) {
         User user = new User();
 
-        user.email = new Email(registerRequest.email());
-
         UserValidator.validateAccount(registerRequest.account());
         user.account = registerRequest.account();
+
+        user.email = new Email(registerRequest.email());
 
         UserValidator.validateBirthday(registerRequest.birthday());
         user.birthday = LocalDate.parse(registerRequest.birthday());
 
-        if (registerRequest.gender() == null) {
-            throw new CoreException(ErrorType.BAD_REQUEST, "성별은 비어있을 수 없습니다.");
-        }
         UserValidator.validateGender(registerRequest.gender());
         user.gender = registerRequest.gender();
 
