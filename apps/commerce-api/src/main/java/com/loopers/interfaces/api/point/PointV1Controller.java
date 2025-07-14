@@ -17,7 +17,7 @@ public class PointV1Controller implements PointV1ApiSpec{
     @Override
     public ApiResponse<PointV1ResponseDto.PointBalanceResponse> register(
             @RequestHeader("X-USER-ID") String account,
-            @RequestBody PointChargeRequest body
+            @RequestBody PointV1RequestDto.PointChargeRequest body
     ) {
         PointInfo info = pointFacade.chargePoint(account, body);
         PointV1ResponseDto.PointBalanceResponse response = PointV1ResponseDto.PointBalanceResponse.from(info);

@@ -26,7 +26,7 @@ public class User extends BaseEntity {
     LocalDate birthday;
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
-    Sex sex;
+    Gender sex;
 
     private static final String ACCOUNT_PATTERN = "^[a-zA-Z0-9]{1,10}$";
     private static final String BIRTH_DATE_REGEX =
@@ -34,7 +34,7 @@ public class User extends BaseEntity {
 
     public static User register(UserRegisterRequest registerRequest) {
         User user = new User();
-        
+
         if(registerRequest.email() == null || registerRequest.email().isEmpty()) {
             throw new CoreException(ErrorType.BAD_REQUEST, "이메일은 비어있을 수 없습니다.");
         }

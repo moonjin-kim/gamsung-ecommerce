@@ -10,6 +10,6 @@ public record UserRegisterRequest(
         @NotNull
         String birthday,
         @NotNull
-        Sex sex
+        Gender sex
 ) {
 }

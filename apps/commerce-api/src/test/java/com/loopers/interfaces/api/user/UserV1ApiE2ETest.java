@@ -1,6 +1,6 @@
 package com.loopers.interfaces.api.user;
 
-import com.loopers.domain.user.Sex;
+import com.loopers.domain.user.Gender;
 import com.loopers.domain.user.User;
 import com.loopers.domain.user.UserRegisterRequest;
 import com.loopers.fixture.UserFixture;
@@ -59,7 +59,7 @@ class UserV1ApiE2ETest {
         void returnsUserInfo_whenValidBodyIsProvided() {
             //given
             UserRegisterRequest request = new UserRegisterRequest(
-                    "gil123","gildong@gmail.com", "2020-01-01", Sex.MALE
+                    "gil123","gildong@gmail.com", "2020-01-01", Gender.MALE
             );
 
             //when
@@ -108,9 +108,9 @@ class UserV1ApiE2ETest {
 
         private static Stream<Arguments> provideInvalidUserRegisterRequests() {
             return Stream.of(
-                    Arguments.of(new UserRegisterRequest(null, "test@email.com", "2000-01-01", Sex.MALE)), //아이디 없음
-                    Arguments.of(new UserRegisterRequest("short", null, "2000-01-01", Sex.MALE)), // 이메일 없음
-                    Arguments.of(new UserRegisterRequest("hong123", "test@email.com", null, Sex.MALE)), //생년월일 없음
+                    Arguments.of(new UserRegisterRequest(null, "test@email.com", "2000-01-01", Gender.MALE)), //아이디 없음
+                    Arguments.of(new UserRegisterRequest("short", null, "2000-01-01", Gender.MALE)), // 이메일 없음
+                    Arguments.of(new UserRegisterRequest("hong123", "test@email.com", null, Gender.MALE)), //생년월일 없음
                     Arguments.of(new UserRegisterRequest("hong1234", "test@email.com", "2000-01-01", null))  //성별없ㅇ므
             );
         }
