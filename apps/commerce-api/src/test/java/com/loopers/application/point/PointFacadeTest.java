@@ -1,7 +1,6 @@
 package com.loopers.application.point;
 
 import com.loopers.domain.point.Point;
-import com.loopers.domain.point.PointChargeRequest;
 import com.loopers.domain.user.User;
 import com.loopers.fixture.UserFixture;
 import com.loopers.infrastructure.point.PointJpaRepository;

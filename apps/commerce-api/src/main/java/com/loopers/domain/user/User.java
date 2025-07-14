@@ -2,6 +2,7 @@ package com.loopers.domain.user;
 
 import com.loopers.domain.BaseEntity;
 import com.loopers.domain.Email;
+import com.loopers.interfaces.api.user.UserV1RequestDto;
 import com.loopers.support.error.CoreException;
 import com.loopers.support.error.ErrorType;
 import jakarta.persistence.*;
@@ -32,7 +33,7 @@ public class User extends BaseEntity {
     private static final String BIRTH_DATE_REGEX =
             "^(19|20)\\d{2}-(0[1-9]|1[0-2])-(0[1-9]|[12]\\d|3[01])$";
 
-    static User create(UserRegisterRequest registerRequest) {
+    public static User register(UserV1RequestDto.UserRegisterRequest registerRequest) {
         User user = new User();
 
         if(registerRequest.email() == null || registerRequest.email().isEmpty()) {

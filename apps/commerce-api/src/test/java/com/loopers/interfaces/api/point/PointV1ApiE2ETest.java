@@ -1,7 +1,6 @@
 package com.loopers.interfaces.api.point;
 
 import com.loopers.domain.point.Point;
-import com.loopers.domain.point.PointChargeRequest;
 import com.loopers.domain.user.User;
 import com.loopers.fixture.UserFixture;
 import com.loopers.infrastructure.point.PointJpaRepository;
@@ -59,7 +58,8 @@ public class PointV1ApiE2ETest {
             User user = userJpaRepository.save(
                     UserFixture.createMember()
             );
-            PointChargeRequest request = new PointChargeRequest(1000);
+            var request = new PointV1RequestDto.PointChargeRequest(1000);
+
             HttpHeaders headers = new HttpHeaders();
             headers.setContentType(MediaType.APPLICATION_JSON);
             headers.set("X-USER-ID", String.valueOf(user.getAccount()));
@@ -71,7 +71,7 @@ public class PointV1ApiE2ETest {
                     testRestTemplate.exchange(
                             ENDPOINT_CHARGE,
                             HttpMethod.POST,
-                            new HttpEntity<PointChargeRequest>(request, headers),
+                            new HttpEntity<PointV1RequestDto.PointChargeRequest>(request, headers),
                             responseType
                     );
 
@@ -92,7 +92,7 @@ public class PointV1ApiE2ETest {
             Point point = pointJpaRepository.save(
                     Point.charge(user, 10000, 0)
             );
-            PointChargeRequest request = new PointChargeRequest(1000);
+            var request = new PointV1RequestDto.PointChargeRequest(1000);
             HttpHeaders headers = new HttpHeaders();
             headers.setContentType(MediaType.APPLICATION_JSON);
             headers.set("X-USER-ID", String.valueOf(user.getAccount()));
@@ -104,7 +104,7 @@ public class PointV1ApiE2ETest {
                     testRestTemplate.exchange(
                             ENDPOINT_CHARGE,
                             HttpMethod.POST,
-                            new HttpEntity<PointChargeRequest>(request, headers),
+                            new HttpEntity<PointV1RequestDto.PointChargeRequest>(request, headers),
                             responseType
                     );
 
@@ -119,7 +119,7 @@ public class PointV1ApiE2ETest {
         @Test
         void throwsException_whenInvalidIdIsProvided() {
             //given
-            PointChargeRequest request = new PointChargeRequest(1000);
+            var request = new PointV1RequestDto.PointChargeRequest(1000);
             HttpHeaders headers = new HttpHeaders();
             headers.setContentType(MediaType.APPLICATION_JSON);
             headers.set("X-USER-ID", "1");
@@ -131,7 +131,7 @@ public class PointV1ApiE2ETest {
                     testRestTemplate.exchange(
                             ENDPOINT_CHARGE,
                             HttpMethod.POST,
-                            new HttpEntity<PointChargeRequest>(request, headers),
+                            new HttpEntity<PointV1RequestDto.PointChargeRequest>(request, headers),
                             responseType
                     );
 
@@ -213,7 +213,7 @@ public class PointV1ApiE2ETest {
         @Test
         void throwsException_whenInvalidIdIsProvided() {
             //given
-            PointChargeRequest request = new PointChargeRequest(1000);
+            var request = new PointV1RequestDto.PointChargeRequest(1000);
             HttpHeaders headers = new HttpHeaders();
             headers.setContentType(MediaType.APPLICATION_JSON);
             headers.set("X-USER-ID", "1");
@@ -225,7 +225,7 @@ public class PointV1ApiE2ETest {
                     testRestTemplate.exchange(
                             ENDPOINT_GET_BALANCE,
                             HttpMethod.GET,
-                            new HttpEntity<>(null, headers),
+                            new HttpEntity<>(request, headers),
                             responseType
                     );
 
