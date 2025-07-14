@@ -38,10 +38,10 @@ class UserTest {
         void throwsBadRequestException_whenAccountLenOverTen(){
             //given
             UserRegisterRequest request1 = new UserRegisterRequest(
-                    "gil12312312","gildong@gmail.com", "2020-01-01", Sex.MALE
+                    "gil12312312","gildong@gmail.com", "2020-01-01", Gender.MALE
             );
             UserRegisterRequest request2 = new UserRegisterRequest(
-                    "홍길동12312312","gildong@gmail.com", "2020-01-01", Sex.MALE
+                    "홍길동12312312","gildong@gmail.com", "2020-01-01", Gender.MALE
             );
 
             //when
@@ -62,7 +62,7 @@ class UserTest {
         void throwsBadRequestException_whenIncorrectEmailFormat(){
             //given
             UserRegisterRequest request = new UserRegisterRequest(
-                    "gil123","gildong",  "2020-01-01", Sex.MALE
+                    "gil123","gildong",  "2020-01-01", Gender.MALE
             );
 
             //when
@@ -79,7 +79,7 @@ class UserTest {
         void throwsBadRequestException_whenIncorrectBirthDayFormat(){
             //given
             UserRegisterRequest request = new UserRegisterRequest(
-                    "gil123","gildong@gmail.com", "2020-01", Sex.MALE
+                    "gil123","gildong@gmail.com", "2020-01", Gender.MALE
             );
 
             //when

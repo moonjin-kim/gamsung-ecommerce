@@ -1,8 +1,6 @@
 package com.loopers.domain.point;
 
-import com.loopers.domain.user.Sex;
 import com.loopers.domain.user.User;
-import com.loopers.domain.user.UserRegisterRequest;
 import com.loopers.fixture.UserFixture;
 import com.loopers.support.error.CoreException;
 import com.loopers.support.error.ErrorType;

@@ -5,6 +5,7 @@ import com.loopers.domain.point.PointChargeRequest;
 import com.loopers.domain.point.PointService;
 import com.loopers.domain.user.User;
 import com.loopers.domain.user.UserService;
+import com.loopers.interfaces.api.point.PointV1RequestDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
@@ -14,7 +15,7 @@ public class PointFacade {
     private final PointService pointService;
     private final UserService userService;
 
-    public PointInfo chargePoint(String account, PointChargeRequest chargeRequest) {
+    public PointInfo chargePoint(String account, PointV1RequestDto.PointChargeRequest chargeRequest) {
         User user = userService.getUser(account);
 
         Point point = pointService.chargePoint(user, chargeRequest.amount());

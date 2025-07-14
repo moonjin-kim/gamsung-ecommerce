@@ -6,6 +6,7 @@ import com.loopers.domain.user.User;
 import com.loopers.fixture.UserFixture;
 import com.loopers.infrastructure.point.PointJpaRepository;
 import com.loopers.infrastructure.user.UserJpaRepository;
+import com.loopers.interfaces.api.point.PointV1RequestDto;
 import com.loopers.support.error.CoreException;
 import com.loopers.support.error.ErrorType;
 import com.loopers.utils.DatabaseCleanUp;
@@ -45,7 +46,7 @@ class PointFacadeTest {
         void returnPoint(){
             //given
             User user = userJpaRepository.save(UserFixture.createMember());
-            PointChargeRequest chargeRequest = new PointChargeRequest(1000);
+            var chargeRequest = new PointV1RequestDto.PointChargeRequest(1000);
 
             //when
             PointInfo result = pointFacade.chargePoint(user.getAccount(), chargeRequest);
@@ -66,7 +67,7 @@ class PointFacadeTest {
             Point chargedPoint = pointJpaRepository.save(
                     Point.charge(user, 1000, 0)
             );
-            PointChargeRequest chargeRequest = new PointChargeRequest(1000);
+            var chargeRequest = new PointV1RequestDto.PointChargeRequest(1000);
 
             //when
             PointInfo result = pointFacade.chargePoint(user.getAccount(), chargeRequest);
@@ -83,7 +84,7 @@ class PointFacadeTest {
         @Test
         void throwException_whenInvalidIdIsProvided(){
             //given
-            PointChargeRequest chargeRequest = new PointChargeRequest(1000);
+            var chargeRequest = new PointV1RequestDto.PointChargeRequest(1000);
 
             //when
             CoreException exception = assertThrows(CoreException.class, () -> {
