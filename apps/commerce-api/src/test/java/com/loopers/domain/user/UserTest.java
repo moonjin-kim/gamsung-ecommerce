@@ -7,6 +7,8 @@ import com.loopers.support.error.ErrorType;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -34,35 +36,40 @@ class UserTest {
         }
 
         @DisplayName("ID 가 영문 및 숫자 10자 이내 형식에 맞지 않으면, User 객체 생성에 실패한다.")
-        @Test
-        void throwsBadRequestException_whenAccountLenOverTen(){
+        @ParameterizedTest
+        @ValueSource(strings = {
+                "gildong1234",
+                "홍길동1234",
+                "홍길동@1234",
+                ""
+        })
+        void throwsBadRequestException_whenAccountLenOverTen(String account){
             //given
             UserV1RequestDto.UserRegisterRequest request1 = new UserV1RequestDto.UserRegisterRequest(
-                    "gil12312312","gildong@gmail.com", "2020-01-01", Gender.MALE
-            );
-            UserV1RequestDto.UserRegisterRequest request2 = new UserV1RequestDto.UserRegisterRequest(
-                    "홍길동12312312","gildong@gmail.com", "2020-01-01", Gender.MALE
+                    account,"gildong@gmail.com", "2020-01-01", Gender.MALE
             );
 
             //when
-            CoreException result1 = assertThrows(CoreException.class, () -> {
+            CoreException result = assertThrows(CoreException.class, () -> {
                 User.register(request1);
-            });
-            CoreException result2 = assertThrows(CoreException.class, () -> {
-                User.register(request2);
             });
 
             //then
-            assertThat(result1.getErrorType()).isEqualTo(ErrorType.BAD_REQUEST);
-            assertThat(result2.getErrorType()).isEqualTo(ErrorType.BAD_REQUEST);
+            assertThat(result.getErrorType()).isEqualTo(ErrorType.BAD_REQUEST);
         }
 
         @DisplayName("이메일이 xx@yy.zz 형식에 맞지 않으면, User 객체 생성에 실패한다.")
-        @Test
-        void throwsBadRequestException_whenIncorrectEmailFormat(){
+        @ParameterizedTest
+        @ValueSource(strings = {
+                "gildong@gmail",
+                "gildong",
+                "@naver.com",
+                ""
+        })
+        void throwsBadRequestException_whenIncorrectEmailFormat(String email){
             //given
             UserV1RequestDto.UserRegisterRequest request = new UserV1RequestDto.UserRegisterRequest(
-                    "gil123","gildong",  "2020-01-01", Gender.MALE
+                    "gil123",email,  "2020-01-01", Gender.MALE
             );
 
             //when
@@ -75,11 +82,17 @@ class UserTest {
         }
 
         @DisplayName("생년월일이 yyyy-MM-dd 형식에 맞지 않으면, User 객체 생성에 실패한다.")
-        @Test
-        void throwsBadRequestException_whenIncorrectBirthDayFormat(){
+        @ParameterizedTest
+        @ValueSource(strings = {
+                "20250101",
+                "2025-01-",
+                "2020-01-0",
+                "",
+        })
+        void throwsBadRequestException_whenIncorrectBirthDayFormat(String birthday){
             //given
             UserV1RequestDto.UserRegisterRequest request = new UserV1RequestDto.UserRegisterRequest(
-                    "gil123","gildong@gmail.com", "2020-01", Gender.MALE
+                    "gil123","gildong@gmail.com", birthday, Gender.MALE
             );
 
             //when
