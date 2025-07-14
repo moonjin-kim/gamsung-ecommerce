@@ -1,28 +1,24 @@
 package com.loopers.application.user;
 
 import com.loopers.domain.user.User;
-import com.loopers.domain.user.Sex;
+import com.loopers.domain.user.Gender;
 
 import java.time.LocalDate;
 
 public record UserInfo(
         Long id,
         String account,
-        String name,
         String email,
         LocalDate birthday,
-        String address,
-        Sex sex
+        Gender gender
 ) {
     public static UserInfo from(User user) {
         return new UserInfo(
                 user.getId(),
                 user.getAccount(),
-                user.getName(),
-                user.getEmail().address(),
+                user.getEmail(),
                 user.getBirthday(),
-                user.getAddress(),
-                user.getSex()
+                user.getGender()
         );
     }
 }
