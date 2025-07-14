@@ -130,7 +130,7 @@ class UserV1ApiE2ETest {
             );
             HttpHeaders headers = new HttpHeaders();
             headers.setContentType(MediaType.APPLICATION_JSON);
-            headers.set("X-USER-ID", "1");
+            headers.set("X-USER-ID", user.getAccount());
 
             //when
             ParameterizedTypeReference<ApiResponse<UserV1Dto.UserResponse>> responseType = new ParameterizedTypeReference<>() {
@@ -149,7 +149,7 @@ class UserV1ApiE2ETest {
                     () -> assertThat(response.getBody().data().id()).isEqualTo(user.getId()),
                     () -> assertThat(response.getBody().data().account()).isEqualTo(user.getAccount()),
                     () -> assertThat(response.getBody().data().birthday()).isEqualTo(user.getBirthday()),
-                    () -> assertThat(response.getBody().data().email()).isEqualTo(user.getEmail()),
+                    () -> assertThat(response.getBody().data().email()).isEqualTo(user.getEmail().address()),
                     () -> assertThat(response.getBody().data().sex()).isEqualTo(user.getSex())
             );
         }

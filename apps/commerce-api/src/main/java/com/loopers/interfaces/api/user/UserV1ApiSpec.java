@@ -17,5 +17,5 @@ public interface UserV1ApiSpec {
             summary = "회원조회",
             description = "ID로 유저를 조회합니다."
     )
-    ApiResponse<UserV1Dto.UserResponse> getUser(Long userId);
+    ApiResponse<UserV1Dto.UserResponse> getUser(String account);
 }

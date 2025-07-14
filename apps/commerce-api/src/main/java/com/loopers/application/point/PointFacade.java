@@ -14,16 +14,16 @@ public class PointFacade {
     private final PointService pointService;
     private final UserService userService;
 
-    public PointInfo chargePoint(Long userId, PointChargeRequest chargeRequest) {
-        User user = userService.getUser(userId);
+    public PointInfo chargePoint(String account, PointChargeRequest chargeRequest) {
+        User user = userService.getUser(account);
 
         Point point = pointService.chargePoint(user, chargeRequest.amount());
 
         return PointInfo.from(user, point);
     }
 
-    public PointInfo getBalance(Long userId) {
-        User user = userService.getUser(userId);
+    public PointInfo getBalance(String account) {
+        User user = userService.getUser(account);
 
         int balance = pointService.getBalance(user);
 

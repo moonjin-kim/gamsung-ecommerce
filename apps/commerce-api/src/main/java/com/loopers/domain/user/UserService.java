@@ -20,9 +20,9 @@ public class UserService {
     }
 
     @Transactional(readOnly = true)
-    public User getUser(Long id) {
-        return userRepository.find(id).orElseThrow(() ->
-                new CoreException(ErrorType.NOT_FOUND, "[id = " + id + "] 존재하지 않는 회원입니다.")
+    public User getUser(String account) {
+        return userRepository.findByAccount(account).orElseThrow(() ->
+                new CoreException(ErrorType.NOT_FOUND, "[account = " + account + "] 존재하지 않는 회원입니다.")
         );
     }
 

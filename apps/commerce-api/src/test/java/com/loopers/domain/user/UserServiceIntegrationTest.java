@@ -47,7 +47,7 @@ class UserServiceIntegrationTest {
             assertAll(
                     () -> assertThat(savedUser.getId()).isEqualTo(user.getId()),
                     () -> assertThat(savedUser.getAccount()).isEqualTo(request.account()),
-                    () -> assertThat(savedUser.getEmail()).isEqualTo(request.email()),
+                    () -> assertThat(savedUser.getEmail().address()).isEqualTo(request.email()),
                     () -> assertThat(savedUser.getBirthday()).isEqualTo(request.birthday()),
                     () -> assertThat(savedUser.getSex()).isEqualTo(request.sex())
             );
@@ -84,7 +84,7 @@ class UserServiceIntegrationTest {
             );
 
             //when
-            User result = userService.getUser(user.getId());
+            User result = userService.getUser(user.getAccount());
 
             //then
             assertAll(
@@ -104,7 +104,7 @@ class UserServiceIntegrationTest {
 
             //when
             CoreException exception = assertThrows(CoreException.class, () -> {
-                userService.getUser(1L);
+                userService.getUser("human");
             });
 
             // assert

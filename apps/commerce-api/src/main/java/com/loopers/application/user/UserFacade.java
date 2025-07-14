@@ -14,7 +14,7 @@ public class UserFacade {
         return UserInfo.from(userService.registerMember(request));
     }
 
-    public UserInfo getUser(Long id) {
-        return UserInfo.from(userService.getUser(id));
+    public UserInfo getUser(String account) {
+        return UserInfo.from(userService.getUser(account));
     }
 }
