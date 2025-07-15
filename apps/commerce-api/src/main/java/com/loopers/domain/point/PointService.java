@@ -20,8 +20,7 @@ public class PointService {
         return Point.charge(user, amount, currentBalance);
     }
 
-    public int getBalance(User user) {
-        Optional<Point> lastPoint = pointRepository.findLastByUser(user);
-        return lastPoint.map(Point::getBalance).orElse(0);
+    public Optional<Point> getBalance(User user) {
+        return pointRepository.findLastByUser(user);
     }
 }

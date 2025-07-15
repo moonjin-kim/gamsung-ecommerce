@@ -14,6 +14,8 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import java.util.Optional;
+
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -86,9 +88,11 @@ class UserServiceIntegrationTest {
             );
 
             //when
-            User result = userService.getUser(user.getAccount());
+            User result = userService.getUser(user.getAccount()).orElse(null);
 
             //then
+
+
             assertAll(
                     () -> assertThat(result).isNotNull(),
                     () -> assertThat(result.getId()).isEqualTo(user.getId()),
@@ -99,18 +103,16 @@ class UserServiceIntegrationTest {
             );
         }
 
-        @DisplayName("존재하지 않는 유저 ID를 주면, NOT_FOUND 예외가 발생한다.")
+        @DisplayName("존재하지 않는 유저 ID를 주면, null을 반환한다.")
         @Test
         void throwsException_whenInvalidIdIsProvided(){
             //given
 
             //when
-            CoreException exception = assertThrows(CoreException.class, () -> {
-                userService.getUser("human");
-            });
+            Optional<User> result = userService.getUser("human");
 
             // assert
-            assertThat(exception.getErrorType()).isEqualTo(ErrorType.NOT_FOUND);
+            assertThat(result.isPresent()).isFalse();
         }
     }
 }

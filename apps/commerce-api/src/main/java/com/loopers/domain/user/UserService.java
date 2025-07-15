@@ -7,6 +7,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Optional;
+
 @RequiredArgsConstructor
 @Service
 @Transactional(readOnly = true)
@@ -23,10 +25,8 @@ public class UserService {
     }
 
     @Transactional(readOnly = true)
-    public User getUser(String account) {
-        return userRepository.findBy(account).orElseThrow(() ->
-                new CoreException(ErrorType.NOT_FOUND, "[account = " + account + "] 존재하지 않는 회원입니다.")
-        );
+    public Optional<User> getUser(String account) {
+        return userRepository.findBy(account);
     }
 
     private void checkDuplicateAccount(String account) {
