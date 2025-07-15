@@ -1,14 +1,16 @@
 package com.loopers.interfaces.api.point;
 
-import com.loopers.application.point.PointInfo;
+import com.loopers.application.point.PointBalanceInfo;
 
 public class PointV1ResponseDto {
     public record PointBalanceResponse(
+            String account,
             int balance
     ){
-        public static PointV1ResponseDto.PointBalanceResponse from(PointInfo pointInfo) {
+        public static PointV1ResponseDto.PointBalanceResponse from(PointBalanceInfo pointBalanceInfo) {
             return new PointV1ResponseDto.PointBalanceResponse(
-                    pointInfo.balance()
+                    pointBalanceInfo.account(),
+                    pointBalanceInfo.balance()
             );
         }
     }

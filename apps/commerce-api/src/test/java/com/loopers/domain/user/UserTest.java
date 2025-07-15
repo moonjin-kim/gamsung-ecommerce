@@ -1,7 +1,6 @@
 package com.loopers.domain.user;
 
 import com.loopers.fixture.UserFixture;
-import com.loopers.interfaces.api.user.UserV1RequestDto;
 import com.loopers.support.error.CoreException;
 import com.loopers.support.error.ErrorType;
 import org.junit.jupiter.api.DisplayName;

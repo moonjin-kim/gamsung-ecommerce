@@ -48,12 +48,12 @@ class PointFacadeTest {
             var chargeRequest = new PointV1RequestDto.PointChargeRequest(1000);
 
             //when
-            PointInfo result = pointFacade.chargePoint(user.getAccount(), chargeRequest);
+            PointBalanceInfo result = pointFacade.chargePoint(user.getAccount(), chargeRequest);
 
             //then
             assertAll(
                     () -> assertThat(result).isNotNull(),
-                    () -> assertThat(result.userId()).isEqualTo(user.getId()),
+                    () -> assertThat(result.account()).isEqualTo(user.getAccount()),
                     () -> assertThat(result.balance()).isEqualTo(chargeRequest.amount())
             );
         }
@@ -69,12 +69,12 @@ class PointFacadeTest {
             var chargeRequest = new PointV1RequestDto.PointChargeRequest(1000);
 
             //when
-            PointInfo result = pointFacade.chargePoint(user.getAccount(), chargeRequest);
+            PointBalanceInfo result = pointFacade.chargePoint(user.getAccount(), chargeRequest);
 
             //then
             assertAll(
                     () -> assertThat(result).isNotNull(),
-                    () -> assertThat(result.userId()).isEqualTo(user.getId()),
+                    () -> assertThat(result.account()).isEqualTo(user.getAccount()),
                     () -> assertThat(result.balance()).isEqualTo(chargedPoint.getBalance() + chargeRequest.amount())
             );
         }
@@ -111,12 +111,12 @@ class PointFacadeTest {
             );
 
             //when
-            PointInfo result = pointFacade.getBalance(user.getAccount());
+            PointBalanceInfo result = pointFacade.getBalance(user.getAccount());
 
             //then
             assertAll(
                     () -> assertThat(result).isNotNull(),
-                    () -> assertThat(result.userId()).isEqualTo(user.getId()),
+                    () -> assertThat(result.account()).isEqualTo(user.getAccount()),
                     () -> assertThat(result.balance()).isEqualTo(chargedPoint.getBalance())
             );
         }

@@ -17,9 +17,6 @@ import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
-import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.verify;
 
 @SpringBootTest
 public class PointServiceIntegrationTest {
@@ -114,6 +111,18 @@ public class PointServiceIntegrationTest {
 
             //when
             Optional<Point> result = pointService.getLastPoint(user);
+
+            //then
+            assertThat(result.isPresent()).isFalse();
+        }
+
+        @DisplayName("존재하지 않는 유저이면, null이 반환된다.")
+        @Test
+        void returnNullPoint_whenUserNotExist(){
+            //given
+
+            //when
+            Optional<Point> result = pointService.getLastPoint(null);
 
             //then
             assertThat(result.isPresent()).isFalse();

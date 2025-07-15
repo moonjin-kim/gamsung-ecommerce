@@ -55,6 +55,7 @@ class UserServiceIntegrationTest {
             User savedUser = userJpaRepository.findAll().getFirst();
             assertAll(
                     () -> assertThat(savedUser.getId()).isEqualTo(user.getId()),
+                    () -> assertThat(savedUser.getName()).isEqualTo(user.getName()),
                     () -> assertThat(savedUser.getAccount()).isEqualTo(request.account()),
                     () -> assertThat(savedUser.getEmail().address()).isEqualTo(request.email()),
                     () -> assertThat(savedUser.getBirthday()).isEqualTo(request.birthday()),
@@ -100,6 +101,7 @@ class UserServiceIntegrationTest {
             assertAll(
                     () -> assertThat(result).isNotNull(),
                     () -> assertThat(result.getId()).isEqualTo(user.getId()),
+                    () -> assertThat(result.getName()).isEqualTo(user.getName()),
                     () -> assertThat(result.getAccount()).isEqualTo(user.getAccount()),
                     () -> assertThat(result.getEmail()).isEqualTo(user.getEmail()),
                     () -> assertThat(result.getBirthday()).isEqualTo(user.getBirthday()),

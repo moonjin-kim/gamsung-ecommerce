@@ -24,6 +24,10 @@ public class PointService {
     }
 
     public Optional<Point> getLastPoint(User user) {
+        if(user == null) {
+            return Optional.empty();
+        }
+
         return pointRepository.findLastByUser(user);
     }
 }

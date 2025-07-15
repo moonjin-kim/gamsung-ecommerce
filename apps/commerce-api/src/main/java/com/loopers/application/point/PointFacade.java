@@ -18,26 +18,26 @@ public class PointFacade {
     private final PointService pointService;
     private final UserService userService;
 
-    public PointInfo chargePoint(String account, PointV1RequestDto.PointChargeRequest chargeRequest) {
+    public PointBalanceInfo chargePoint(String account, PointV1RequestDto.PointChargeRequest chargeRequest) {
         User user = userService.getUser(account).orElseThrow(() ->
                 new CoreException(ErrorType.NOT_FOUND, "[account = " + account + "] 존재하지 않는 회원입니다.")
         );
 
         Point point = pointService.chargePoint(user, chargeRequest.amount());
 
-        return PointInfo.from(user, point);
+        return PointBalanceInfo.from(user, point);
     }
 
-    public PointInfo getBalance(String account) {
+    public PointBalanceInfo getBalance(String account) {
         User user = userService.getUser(account).orElseThrow(() ->
                 new CoreException(ErrorType.NOT_FOUND, "[account = " + account + "] 존재하지 않는 회원입니다.")
         );
 
         Optional<Point> lastPoint = pointService.getLastPoint(user);
         if (lastPoint.isEmpty()) {
-            return new PointInfo(user.getId(), 0);
+            return new PointBalanceInfo(user.getAccount(), 0);
         }
 
-        return PointInfo.from(user, lastPoint.get());
+        return PointBalanceInfo.from(user, lastPoint.get());
     }
 }
