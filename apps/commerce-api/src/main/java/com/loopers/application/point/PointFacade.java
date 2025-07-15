@@ -5,8 +5,12 @@ import com.loopers.domain.point.PointService;
 import com.loopers.domain.user.User;
 import com.loopers.domain.user.UserService;
 import com.loopers.interfaces.api.point.PointV1RequestDto;
+import com.loopers.support.error.CoreException;
+import com.loopers.support.error.ErrorType;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
+
+import java.util.Optional;
 
 @RequiredArgsConstructor
 @Component
@@ -15,7 +19,9 @@ public class PointFacade {
     private final UserService userService;
 
     public PointInfo chargePoint(String account, PointV1RequestDto.PointChargeRequest chargeRequest) {
-        User user = userService.getUser(account);
+        User user = userService.getUser(account).orElseThrow(() ->
+                new CoreException(ErrorType.NOT_FOUND, "[account = " + account + "] 존재하지 않는 회원입니다.")
+        );
 
         Point point = pointService.chargePoint(user, chargeRequest.amount());
 
@@ -23,10 +29,15 @@ public class PointFacade {
     }
 
     public PointInfo getBalance(String account) {
-        User user = userService.getUser(account);
+        User user = userService.getUser(account).orElseThrow(() ->
+                new CoreException(ErrorType.NOT_FOUND, "[account = " + account + "] 존재하지 않는 회원입니다.")
+        );
 
-        int balance = pointService.getBalance(user);
+        Optional<Point> lastPointHistory = pointService.getBalance(user);
+        if (lastPointHistory.isEmpty()) {
+            return new PointInfo(user.getId(), 0);
+        }
 
-        return new PointInfo(user.getId(), balance);
+        return new PointInfo(user.getId(), lastPointHistory.get().getBalance());
     }
 }

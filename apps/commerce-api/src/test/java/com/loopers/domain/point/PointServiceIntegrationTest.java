@@ -14,6 +14,8 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import java.util.Optional;
+
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -95,10 +97,10 @@ public class PointServiceIntegrationTest {
             );
 
             //when
-            int result = pointService.getBalance(user);
+            Point result = pointService.getBalance(user).orElse(null);
 
             //then
-            assertThat(result).isEqualTo(point.balance);
+            assertThat(result.balance).isEqualTo(point.balance);
         }
 
         @DisplayName("해당 ID 의 회원이 존재할 경우, 보유 포인트가 반환된다.(포인트 충전 이력 x)")
@@ -110,10 +112,10 @@ public class PointServiceIntegrationTest {
             );
 
             //when
-            int result = pointService.getBalance(user);
+            Optional<Point> result = pointService.getBalance(user);
 
             //then
-            assertThat(result).isEqualTo(0);
+            assertThat(result.isPresent()).isFalse();
         }
     }
 }
