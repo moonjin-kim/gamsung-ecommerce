@@ -1,7 +1,7 @@
 package com.loopers.domain.user;
 
-import com.loopers.domain.example.ExampleModel;
-import com.loopers.infrastructure.member.UserJpaRepository;
+import com.loopers.fixture.UserFixture;
+import com.loopers.infrastructure.user.UserJpaRepository;
 import com.loopers.support.error.CoreException;
 import com.loopers.support.error.ErrorType;
 import com.loopers.utils.DatabaseCleanUp;
@@ -14,7 +14,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.ArgumentMatchers.any;
 
 @SpringBootTest
 class UserServiceIntegrationTest {
@@ -37,9 +36,7 @@ class UserServiceIntegrationTest {
         @Test
         void registerMember_whenAllMemberInfoAreProvide(){
             //given
-            UserRegisterRequest request = new UserRegisterRequest(
-                    "gil123","gil1234@gmail.com", "2020-01-01", Sex.MALE
-            );
+            UserRegisterRequest request = UserFixture.createUserRegisterRequest();
 
             //when
             User user = userService.registerMember(request);
@@ -60,11 +57,9 @@ class UserServiceIntegrationTest {
         @Test
         void throwsException_whenAlreadyRegisteredMember() {
             //given
-            UserRegisterRequest request = new UserRegisterRequest(
-                    "gil123","gil1234@gmail.com", "2020-01-01", Sex.MALE
-            );
+            UserRegisterRequest request = UserFixture.createUserRegisterRequest();
             User user = userJpaRepository.save(
-                    User.create(request)
+                    User.register(request)
             );
 
             //when
@@ -85,11 +80,7 @@ class UserServiceIntegrationTest {
         void returnsUser_whenValidIdIsProvided(){
             //given
             User user = userJpaRepository.save(
-                    User.create(
-                            new UserRegisterRequest(
-                            "gil123","gil1234@gmail.com", "2020-01-01", Sex.MALE
-                            )
-                    )
+                    UserFixture.createMember()
             );
 
             //when

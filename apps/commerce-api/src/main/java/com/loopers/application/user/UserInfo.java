@@ -1,7 +1,7 @@
 package com.loopers.application.user;
 
-import com.loopers.domain.user.User;
 import com.loopers.domain.user.Sex;
+import com.loopers.domain.user.User;
 
 import java.time.LocalDate;
 

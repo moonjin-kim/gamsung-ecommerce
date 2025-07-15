@@ -1,7 +1,6 @@
 package com.loopers.domain.user;
 
 import com.loopers.domain.BaseEntity;
-import com.loopers.domain.Email;
 import com.loopers.support.error.CoreException;
 import com.loopers.support.error.ErrorType;
 import jakarta.persistence.*;
@@ -33,7 +32,7 @@ public class User extends BaseEntity {
     static String ACCOUNT_PATTERN = "^[a-zA-Z0-9]{1,10}$";
     static String EMAIL_PATTERN = "^[a-zA-Z0-9_+&*-]+(?:\\.[a-zA-Z0-9_+&*-]+)*@(?:[a-zA-Z0-9_+&*-]+\\.)+[a-zA-Z]{2,7}$";
 
-    public static User create(UserRegisterRequest registerRequest) {
+    public static User register(UserRegisterRequest registerRequest) {
         User user = new User();
 
         user.setEmail(registerRequest.email());
