@@ -33,11 +33,11 @@ public class PointFacade {
                 new CoreException(ErrorType.NOT_FOUND, "[account = " + account + "] 존재하지 않는 회원입니다.")
         );
 
-        Optional<Point> lastPointHistory = pointService.getBalance(user);
-        if (lastPointHistory.isEmpty()) {
+        Optional<Point> lastPoint = pointService.getLastPoint(user);
+        if (lastPoint.isEmpty()) {
             return new PointInfo(user.getId(), 0);
         }
 
-        return new PointInfo(user.getId(), lastPointHistory.get().getBalance());
+        return PointInfo.from(user, lastPoint.get());
     }
 }

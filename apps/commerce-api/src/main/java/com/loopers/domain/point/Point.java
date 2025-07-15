@@ -14,9 +14,17 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 public class Point extends BaseEntity {
+
+    @Column(nullable = false)
     int amount;
+
+    @Column(nullable = false)
     int balance;
+
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
     PointStatus status;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private User user;
@@ -27,6 +35,7 @@ public class Point extends BaseEntity {
         if(amount <= 0) {
             throw new CoreException(ErrorType.BAD_REQUEST, "충전할 포인트는 0원 이상이어야 합니다.");
         }
+        
         point.amount = amount;
         point.balance = balance + amount;
         point.user = user;
