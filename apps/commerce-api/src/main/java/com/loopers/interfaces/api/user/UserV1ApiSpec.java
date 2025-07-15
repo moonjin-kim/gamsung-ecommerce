@@ -1,6 +1,5 @@
 package com.loopers.interfaces.api.user;
 
-import com.loopers.domain.user.UserRegisterRequest;
 import com.loopers.interfaces.api.ApiResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -11,11 +10,11 @@ public interface UserV1ApiSpec {
             summary = "회원가입",
             description = "ID, 이메일, 생년월일, 성별로 회원가입한다."
     )
-    ApiResponse<UserV1Dto.UserResponse> register(UserRegisterRequest requestBody);
+    ApiResponse<UserV1ResponseDto.UserResponse> register(UserV1RequestDto.Register requestBody);
 
     @Operation(
             summary = "회원조회",
             description = "ID로 유저를 조회합니다."
     )
-    ApiResponse<UserV1Dto.UserResponse> getUser(Long userId);
+    ApiResponse<UserV1ResponseDto.UserResponse> me(String account);
 }

@@ -18,12 +18,7 @@ public class UserRepositoryImpl implements UserRepository {
     }
 
     @Override
-    public Optional<User> find(Long id) {
-        return userJpaRepository.findById(id);
-    }
-
-    @Override
-    public Optional<User> findByAccount(String account) {
+    public Optional<User> findBy(String account) {
         return userJpaRepository.findByAccount(account);
     }
 }
