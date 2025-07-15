@@ -10,6 +10,12 @@ public class UserValidator {
     private static final String BIRTH_DATE_REGEX =
             "^(19|20)\\d{2}-(0[1-9]|1[0-2])-(0[1-9]|[12]\\d|3[01])$";
 
+    static void validateName(String name) {
+        if(name == null || name.isEmpty()) {
+            throw new CoreException(ErrorType.BAD_REQUEST, "아이디는 비어있을 수 없습니다.");
+        }
+    }
+
     static void validateAccount(String account) {
         if(account == null || account.isEmpty()) {
             throw new CoreException(ErrorType.BAD_REQUEST, "아이디는 비어있을 수 없습니다.");
@@ -32,7 +38,7 @@ public class UserValidator {
 
     static void validateGender(Gender gender) {
         if(gender == null) {
-            throw new CoreException(ErrorType.BAD_REQUEST, "생년월일은 비어있을 수 없습니다.");
+            throw new CoreException(ErrorType.BAD_REQUEST, "성별은 비워있을 수 없습니다.");
         }
     }
 }

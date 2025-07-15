@@ -17,6 +17,8 @@ public class User extends BaseEntity {
 
     @Column(length = 100, unique = true, nullable = false)
     String account;
+    @Column(length = 100, unique = true, nullable = false)
+    String name;
     @Embedded
     Email email;
     @Column
@@ -27,6 +29,9 @@ public class User extends BaseEntity {
 
     public static User register(UserCommand.Create command) {
         User user = new User();
+
+        UserValidator.validateName(command.name());
+        user.name = command.name();
 
         UserValidator.validateAccount(command.account());
         user.account = command.account();

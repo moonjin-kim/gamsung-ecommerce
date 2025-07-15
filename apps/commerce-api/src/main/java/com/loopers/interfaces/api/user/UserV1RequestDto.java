@@ -7,6 +7,8 @@ import jakarta.validation.constraints.NotNull;
 public class UserV1RequestDto {
     public record Register(
             @NotNull
+            String name,
+            @NotNull
             String account,
             @NotNull
             String email,
@@ -17,6 +19,7 @@ public class UserV1RequestDto {
     ) {
         public UserCommand.Create toCommand() {
             return new UserCommand.Create(
+                    name,
                     account,
                     email,
                     birthday,

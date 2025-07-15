@@ -28,11 +28,29 @@ class UserTest {
 
             //then
             assertThat(user.getId()).isNotNull();
+            assertThat(user.getName()).isEqualTo(request.name());
             assertThat(user.getAccount()).isEqualTo(request.account());
             assertThat(user.getEmail().address()).isEqualTo(request.email());
             assertThat(user.getBirthday()).isEqualTo(request.birthday());
             assertThat(user.getGender()).isEqualTo(request.gender());
 
+        }
+
+        @DisplayName("ID 가 영문 및 숫자 10자 이내 형식에 맞지 않으면, User 객체 생성에 실패한다.")
+        @Test
+        void throwsBadRequestException_whenNameIsEmpty(){
+            //given
+            UserCommand.Create request1 = new UserCommand.Create(
+                    "홍길동", null,"gildong@gmail.com", "2020-01-01", Gender.MALE
+            );
+
+            //when
+            CoreException result = assertThrows(CoreException.class, () -> {
+                User.register(request1);
+            });
+
+            //then
+            assertThat(result.getErrorType()).isEqualTo(ErrorType.BAD_REQUEST);
         }
 
         @DisplayName("ID 가 영문 및 숫자 10자 이내 형식에 맞지 않으면, User 객체 생성에 실패한다.")
@@ -46,7 +64,7 @@ class UserTest {
         void throwsBadRequestException_whenAccountLenOverTen(String account){
             //given
             UserCommand.Create request1 = new UserCommand.Create(
-                    account,"gildong@gmail.com", "2020-01-01", Gender.MALE
+                    "홍길동", account,"gildong@gmail.com", "2020-01-01", Gender.MALE
             );
 
             //when
@@ -69,7 +87,7 @@ class UserTest {
         void throwsBadRequestException_whenIncorrectEmailFormat(String email){
             //given
             UserCommand.Create request = new UserCommand.Create(
-                    "gil123",email, "2020-01-01", Gender.MALE
+                    "홍길동","gil123",email, "2020-01-01", Gender.MALE
             );
 
             //when
@@ -92,7 +110,7 @@ class UserTest {
         void throwsBadRequestException_whenIncorrectBirthDayFormat(String birthday){
             //given
             UserCommand.Create request = new UserCommand.Create(
-                    "gildong","gildong@gmail.com", birthday, Gender.MALE
+                    "홍길동","gildong","gildong@gmail.com", birthday, Gender.MALE
             );
 
             //when
@@ -109,7 +127,7 @@ class UserTest {
         void throwsBadRequestException_whenIncorrectSex(){
             //given
             UserCommand.Create request = new UserCommand.Create(
-                    "gildong","gildong@gmail.com", "2020-01", Gender.MALE
+                    "홍길동","gildong","gildong@gmail.com", "2020-01-01", null
             );
 
             //when

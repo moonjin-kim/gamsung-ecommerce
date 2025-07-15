@@ -8,13 +8,13 @@ import com.loopers.interfaces.api.user.UserV1RequestDto;
 public class UserFixture {
     public static UserV1RequestDto.Register createUserRegisterRequest() {
         return new UserV1RequestDto.Register(
-                "gil123", "gil1234@gmail.com", "2020-01-01", UserV1RequestDto.GenderRequest.MALE
+                "홍길동","gil123", "gil1234@gmail.com", "2020-01-01", UserV1RequestDto.GenderRequest.MALE
         );
     }
 
     public static UserCommand.Create createUserCreateCommand() {
         return new UserCommand.Create(
-                "gil123", "gil1234@gmail.com", "2020-01-01", Gender.MALE
+                "홍길동","gil123", "gil1234@gmail.com", "2020-01-01", Gender.MALE
         );
     }
 

@@ -57,7 +57,7 @@ class UserV1ApiE2ETest {
         void returnsUserInfo_whenValidBodyIsProvided() {
             //given
             var request = new UserV1RequestDto.Register(
-                    "gil123","gildong@gmail.com", "2020-01-01", UserV1RequestDto.GenderRequest.MALE
+                    "홍길동","gil123","gildong@gmail.com", "2020-01-01", UserV1RequestDto.GenderRequest.MALE
             );
 
             //when
@@ -106,10 +106,10 @@ class UserV1ApiE2ETest {
 
         private static Stream<Arguments> provideInvalidUserRegisterRequests() {
             return Stream.of(
-                    Arguments.of(new UserV1RequestDto.Register(null, "test@email.com", "2000-01-01", UserV1RequestDto.GenderRequest.MALE)), //아이디 없음
-                    Arguments.of(new UserV1RequestDto.Register("short", null, "2000-01-01", UserV1RequestDto.GenderRequest.MALE)), // 이메일 없음
-                    Arguments.of(new UserV1RequestDto.Register("hong123", "test@email.com", null, UserV1RequestDto.GenderRequest.MALE)), //생년월일 없음
-                    Arguments.of(new UserV1RequestDto.Register("hong1234", "test@email.com", "2000-01-01", null))  //성별없므
+                    Arguments.of(new UserV1RequestDto.Register(null, "test@email.com", "홍길동","2000-01-01", UserV1RequestDto.GenderRequest.MALE)), //아이디 없음
+                    Arguments.of(new UserV1RequestDto.Register("홍길동","short", null, "2000-01-01", UserV1RequestDto.GenderRequest.MALE)), // 이메일 없음
+                    Arguments.of(new UserV1RequestDto.Register("홍길동","hong123", "test@email.com", null, UserV1RequestDto.GenderRequest.MALE)), //생년월일 없음
+                    Arguments.of(new UserV1RequestDto.Register("홍길동","hong1234", "test@email.com", "2000-01-01", null))  //성별없므
             );
         }
     }
