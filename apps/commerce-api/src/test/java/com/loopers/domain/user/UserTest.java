@@ -1,6 +1,5 @@
 package com.loopers.domain.user;
 
-import com.loopers.domain.example.ExampleModel;
 import com.loopers.support.error.CoreException;
 import com.loopers.support.error.ErrorType;
 import org.junit.jupiter.api.DisplayName;
@@ -28,7 +27,7 @@ class UserTest {
             //then
             assertThat(user.getId()).isNotNull();
             assertThat(user.getAccount()).isEqualTo(request.account());
-            assertThat(user.getEmail()).isEqualTo(request.email());
+            assertThat(user.getEmail().address()).isEqualTo(request.email());
             assertThat(user.getBirthday()).isEqualTo(request.birthday());
             assertThat(user.getGender()).isEqualTo(request.gender());
 

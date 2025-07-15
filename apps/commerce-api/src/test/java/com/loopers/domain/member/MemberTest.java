@@ -1,14 +1,10 @@
 package com.loopers.domain.member;
 
-import com.loopers.domain.example.ExampleModel;
-import com.loopers.support.error.CoreException;
-import com.loopers.support.error.ErrorType;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.assertThrows;
 
 class MemberTest {
     @DisplayName("회원가입할 때")

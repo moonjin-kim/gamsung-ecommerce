@@ -1,6 +1,7 @@
 package com.loopers.domain.user;
 
 import com.loopers.domain.BaseEntity;
+import com.loopers.domain.Email;
 import com.loopers.support.error.CoreException;
 import com.loopers.support.error.ErrorType;
 import jakarta.persistence.*;
@@ -9,7 +10,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
-import java.time.format.DateTimeParseException;
 import java.util.regex.Pattern;
 
 @Entity
